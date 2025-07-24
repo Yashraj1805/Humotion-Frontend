@@ -130,9 +130,9 @@ const TermsOfService: React.FC = () => {
                 If you have any questions about these Terms of Service, please contact us at:
               </p>
               <p className="text-white">
-                Email: legal@humotionpulse.com<br />
-                Phone: [Your Contact Number]<br />
-                Address: [Your Company Address]
+                Email: founder@humotionai.com<br />
+                Phone: +91 8700829517<br />
+                Address: B2 704, SCC Heights, Raj Nagar Extension, Ghaziabad, India
               </p>
             </section>
           </div>
