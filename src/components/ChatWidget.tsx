@@ -23,7 +23,8 @@ const ChatWidget = () => {
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const GEMINI_API_KEY = 'AIzaSyAYgjSNX4s9wRs4HGEd_2SlMfZPVFt8kJg';
+  // Use environment variable for Gemini API key. Set VITE_GEMINI_API_KEY in your .env file.
+  const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
