@@ -1,5 +1,5 @@
 import React from 'react';
-import Header from "@/components/Header";
+import Header from "@/components/Header"; 
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { FaCalendarAlt, FaClock, FaShare, FaHeart, FaTwitter, FaLinkedin, FaFacebook, FaWhatsapp } from 'react-icons/fa';
 
