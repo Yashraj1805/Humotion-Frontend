@@ -24,7 +24,7 @@ const About = () => {
               animate={{ opacity: 1, y: 0 }}
               className="text-5xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white to-blue-200"
             >
-              About Humotion
+              About HumotionAI
             </motion.h1>
             <motion.p 
               initial={{ opacity: 0, y: 20 }}
@@ -137,7 +137,7 @@ const About = () => {
                       whileHover={{ x: 5 }}
                       className="text-gray-600 text-lg leading-relaxed hover:text-gray-800 transition-colors"
                     >
-                      At Humotion, we're dedicated to bridging the gap between human emotions and artificial intelligence. 
+                      At HumotionAI, we're dedicated to bridging the gap between human emotions and artificial intelligence. 
                       Our mission is to create technology that understands, responds to, and enhances human emotional well-being.
                     </motion.p>
                     <motion.p 

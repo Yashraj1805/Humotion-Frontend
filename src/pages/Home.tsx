@@ -23,7 +23,7 @@ const Home = () => {
                 className="flex-1 text-center lg:text-left"
               >
                 <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6">
-                  Welcome to <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">Humotion Pulse</span>
+                  Welcome to <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">HumotionAI</span>
                 </h1>
                 <p className="text-lg sm:text-xl text-white/80 mb-8 max-w-2xl mx-auto lg:mx-0">
                   Experience the future of emotional intelligence with our advanced AI-powered platform. 

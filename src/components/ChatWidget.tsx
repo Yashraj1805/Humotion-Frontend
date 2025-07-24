@@ -1,3 +1,4 @@
+/// <reference types="vite/client" />
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaComments, FaTimes, FaPaperPlane, FaRobot } from 'react-icons/fa';
@@ -15,7 +16,7 @@ const ChatWidget = () => {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
-      text: 'Hello! I\'m Gemini AI, your AI assistant. I have full access to this website and can help you with any questions about Humotion\'s services, solutions, or general inquiries. How can I assist you today?',
+      text: 'Hello! I\'m Gemini AI, your AI assistant. I have full access to this website and can help you with any questions about HumotionAI\'s services, solutions, or general inquiries. How can I assist you today?',
       sender: 'grok',
       timestamp: new Date()
     }
@@ -47,7 +48,7 @@ const ChatWidget = () => {
           {
             parts: [
               {
-                text: `You are Gemini AI, an AI assistant for Humotion, a technology company. You have full access to this website and can help users with information about:
+                text: `You are Gemini AI, an AI assistant for HumotionAI, a technology company. You have full access to this website and can help users with information about:
                 - AI Consulting services
                 - AI Security solutions
                 - Custom Development
@@ -58,7 +59,7 @@ const ChatWidget = () => {
                 - Company contact information (info@humotion.ai, support@humotion.ai, +91 7827075810, +91 6387805151)
                 - Office location (Sector 2C, Ghaziabad, Uttar Pradesh, India)
                 
-                Provide helpful, accurate information about Humotion's services and capabilities. Keep responses concise and professional.
+                Provide helpful, accurate information about HumotionAI's services and capabilities. Keep responses concise and professional.
                 
                 User question: ${userMessage}`
               }
@@ -158,7 +159,7 @@ const ChatWidget = () => {
     
     // About Company
     if (lowerMessage.includes('about') || lowerMessage.includes('company') || lowerMessage.includes('who') || lowerMessage.includes('what')) {
-      return "Humotion is a leading AI technology company specializing in innovative solutions for businesses. We help organizations transform their operations through cutting-edge AI, automation, and digital technologies. Our team of experts combines deep technical knowledge with industry experience to deliver solutions that drive real business value. We're committed to helping our clients stay ahead in the digital age.";
+      return "HumotionAI is a leading AI technology company specializing in innovative solutions for businesses. We help organizations transform their operations through cutting-edge AI, automation, and digital technologies. Our team of experts combines deep technical knowledge with industry experience to deliver solutions that drive real business value. We're committed to helping our clients stay ahead in the digital age.";
     }
     
     // Services Overview
