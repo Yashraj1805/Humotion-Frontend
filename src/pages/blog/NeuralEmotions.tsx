@@ -33,23 +33,23 @@ const NeuralEmotions = () => {
         className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-purple-500 to-pink-600 z-50"
       />
       <main className="pt-20 relative z-10">
-        <article className="container mx-auto px-4 py-12">
+        <article className="container mx-auto px-2 sm:px-4 py-6 sm:py-12">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="max-w-4xl mx-auto bg-white/80 backdrop-blur-lg rounded-2xl shadow-xl p-8"
+            className="max-w-4xl mx-auto bg-white/80 backdrop-blur-lg rounded-2xl shadow-xl p-4 sm:p-8"
           >
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="mb-8"
+              className="mb-6 sm:mb-8"
             >
-              <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-pink-600">
+              <h1 className="text-2xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4 sm:mb-6 bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-pink-600">
                 Neural Networks & Human Emotions
               </h1>
-              <div className="flex items-center text-gray-600 mb-8 space-x-4">
+              <div className="flex flex-wrap items-center text-gray-600 mb-6 sm:mb-8 space-x-2 sm:space-x-4 text-sm sm:text-base">
                 <div className="flex items-center">
                   <FaCalendarAlt className="mr-2" />
                   <span>March 10, 2024</span>
@@ -58,8 +58,8 @@ const NeuralEmotions = () => {
                   <FaClock className="mr-2" />
                   <span>6 min read</span>
                 </div>
-                <div className="flex items-center space-x-4 ml-auto">
-                  <div className="flex space-x-3">
+                <div className="flex items-center space-x-2 sm:space-x-4 ml-auto mt-2 sm:mt-0">
+                  <div className="flex space-x-2 sm:space-x-3">
                     {shareOptions.map((option, index) => (
                       <motion.a
                         key={index}
@@ -85,7 +85,7 @@ const NeuralEmotions = () => {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.3 }}
-              className="relative h-[400px] md:h-[500px] mb-12 rounded-2xl overflow-hidden shadow-2xl"
+              className="relative h-48 xs:h-64 sm:h-[400px] md:h-[500px] mb-8 sm:mb-12 rounded-2xl overflow-hidden shadow-2xl"
             >
               <img
                 src="https://cdn.pixabay.com/photo/2025/05/26/17/02/ai-generated-9623738_640.png"
@@ -99,9 +99,9 @@ const NeuralEmotions = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
-              className="prose prose-lg max-w-none"
+              className="prose prose-base sm:prose-lg max-w-none"
             >
-              <p className="text-xl text-gray-700 mb-6 leading-relaxed">
+              <p className="text-base sm:text-xl text-gray-700 mb-4 sm:mb-6 leading-relaxed">
                 The intersection of neural networks and human emotions represents one of the most 
                 fascinating developments in artificial intelligence. By understanding how neural 
                 networks process and interpret emotional patterns, we can create more empathetic 
@@ -114,7 +114,7 @@ const NeuralEmotions = () => {
                 transition={{ duration: 0.5 }}
                 viewport={{ once: true }}
               >
-                <h2 className="text-3xl font-bold text-gray-900 mt-12 mb-6 bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-pink-600">
+                <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mt-12 mb-6 bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-pink-600">
                   The Science Behind Emotional Processing
                 </h2>
                 <p className="text-gray-700 mb-6 leading-relaxed">
@@ -152,7 +152,7 @@ const NeuralEmotions = () => {
                 transition={{ duration: 0.5 }}
                 viewport={{ once: true }}
               >
-                <h2 className="text-3xl font-bold text-gray-900 mt-12 mb-6 bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-pink-600">
+                <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mt-12 mb-6 bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-pink-600">
                   Deep Learning in Emotional Analysis
                 </h2>
                 <p className="text-gray-700 mb-6 leading-relaxed">
@@ -189,7 +189,7 @@ const NeuralEmotions = () => {
                 transition={{ duration: 0.5 }}
                 viewport={{ once: true }}
               >
-                <h2 className="text-3xl font-bold text-gray-900 mt-12 mb-6 bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-pink-600">
+                <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mt-12 mb-6 bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-pink-600">
                   Future Applications
                 </h2>
                 <p className="text-gray-700 mb-6 leading-relaxed">

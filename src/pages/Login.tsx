@@ -230,14 +230,7 @@ const Login = () => {
             </div>
           </div>
 
-          {/* Demo Account Info */}
-          <div className="mt-6 p-4 bg-navy-800/50 rounded-lg">
-            <p className="text-sm text-gray-400 text-center">
-              Demo Account:<br />
-              Email: demo@example.com<br />
-              Password: password123
-            </p>
-          </div>
+         
         </div>
       </div>
     </div>
