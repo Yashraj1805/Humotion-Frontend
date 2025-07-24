@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 
 interface BlogPost {
   id: number;
@@ -63,8 +64,8 @@ const BlogInsights: React.FC = () => {
                 <p className="text-gray-600 mb-4 font-sans">
                   {post.description}
                 </p>
-                <a
-                  href={post.link}
+                <Link
+                  to={post.link}
                   className="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium transition-colors duration-300"
                 >
                   Read More
@@ -81,7 +82,7 @@ const BlogInsights: React.FC = () => {
                       d="M9 5l7 7-7 7"
                     />
                   </svg>
-                </a>
+                </Link>
               </div>
             </motion.article>
           ))}
