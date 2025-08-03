@@ -1,33 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaBars, FaTimes, FaUser, FaCog, FaSignOutAlt } from 'react-icons/fa';
 import { useIsMobile } from '../hooks/use-mobile';
+import { useAuth } from '../contexts/AuthContext';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [userProfile, setUserProfile] = useState<any>(null);
+  const { isLoggedIn, user, logout } = useAuth();
   const isMobile = useIsMobile();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    // Check login state from localStorage
-    const loginState = localStorage.getItem('isLoggedIn');
-    const profile = localStorage.getItem('userProfile');
-    
-    if (loginState === 'true' && profile) {
-      setIsLoggedIn(true);
-      setUserProfile(JSON.parse(profile));
-    }
-  }, []);
-
   const handleLogout = () => {
-    localStorage.removeItem('isLoggedIn');
-    localStorage.removeItem('userProfile');
-    setIsLoggedIn(false);
-    setUserProfile(null);
+    logout();
     setIsProfileOpen(false);
     navigate('/');
   };
@@ -83,9 +69,9 @@ const Header = () => {
                     className="flex items-center space-x-2 text-gray-300 hover:text-white transition-colors duration-200"
                   >
                     <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center">
-                      {userProfile?.name?.charAt(0) || 'U'}
+                      {user?.name?.charAt(0) || 'U'}
                     </div>
-                    <span>{userProfile?.name || 'User'}</span>
+                    <span>{user?.name || 'User'}</span>
                   </button>
 
                   {/* Profile Dropdown */}

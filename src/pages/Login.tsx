@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { FaUser, FaLock, FaEye, FaEyeSlash, FaGoogle } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { useAuth } from '../contexts/AuthContext';
 
 const Login = () => {
   const navigate = useNavigate();
+  const { login } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     email: '',
@@ -14,27 +15,19 @@ const Login = () => {
 
   const handleSubmit = async(e: React.FormEvent) => {
     e.preventDefault();
-    try {
-      const response = await axios.post(
-        'http://localhost:3000/api/v1/auth/login',
-        {
-          email: formData.email,
-          password: formData.password,
-        },
-        {
-          withCredentials: true, // Include cookies in the request
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }
-      )
-      console.log('Login successful:', response?.data?.message);
-      localStorage.setItem("isLoggedIn", "true");
+    
+    // Demo login - accept any email/password for testing
+    if (formData.email && formData.password) {
+      // Use AuthContext to login
+      login({
+        email: formData.email,
+        name: formData.email.split('@')[0], // Simple name extraction
+        id: Date.now().toString()
+      });
+      
       navigate('/profile');
-    } catch (error:any) {
-        console.error('Login error:', error);
-        const msg = error?.response?.data?.message || "Login failed. Please try again.";
-        alert(msg);
+    } else {
+      alert('Please enter both email and password');
     }
   };
 
