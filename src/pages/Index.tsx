@@ -4,7 +4,6 @@ import ProductSection from "../components/ProductSection";
 import ServicesSection from "../components/ServicesSection";
 import AboutSection from "../components/AboutSection";
 import SolutionsSection from "../components/SolutionsSection";
-import TestimonialsSection from "../components/TestimonialsSection";
 import BlogInsights from "../components/BlogInsights";
 import ContactSection from "../components/ContactSection";
 import ChatWidget from "../components/ChatWidget";
@@ -18,7 +17,6 @@ const Index = () => {
       <ServicesSection />
       <AboutSection />
       <SolutionsSection />
-      <TestimonialsSection />
       <BlogInsights />
       <ContactSection />
       <ChatWidget />
