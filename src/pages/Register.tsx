@@ -79,7 +79,7 @@ const Register = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/v1/auth/register",
+        "https://backend-server-5mwr.onrender.com/api/register",
         {
           fullname: formData.name,
           email: formData.email,
