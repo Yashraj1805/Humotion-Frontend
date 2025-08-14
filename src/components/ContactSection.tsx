@@ -25,7 +25,7 @@ const contactInfo = [
   {
     icon: Phone,
     title: "Call Us",
-    content: "+91 870082951",
+    content: "+91 8700829517",
     action: "tel:+918700829517"
   },
   {
@@ -85,7 +85,7 @@ const ContactSection: React.FC = () => {
     try {
       // Replace with your actual backend endpoint
       console.log('Submitting feedback:')
-      const response = await axios.post('http://localhost:3000/api/v1/contact/feedback', {
+      const response = await axios.post('https://backend-server-5mwr.onrender.com/api/createFeedback', {
         ...formData,
         // emotion: selectedEmotion,
         mood: emotions.find(e => e.emoji === selectedEmotion)?.label,
