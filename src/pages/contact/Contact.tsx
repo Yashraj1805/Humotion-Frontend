@@ -32,7 +32,7 @@ const Contact = () => {
     
     try {
       // Replace with your actual backend endpoint
-      const response = await axios.post('http://localhost:3000/api/v1/contact/message', formData, {
+      const response = await axios.post('https://backend-server-5mwr.onrender.com/api/createMessage', formData, {
         headers: {
           'Content-Type': 'application/json',
         }
