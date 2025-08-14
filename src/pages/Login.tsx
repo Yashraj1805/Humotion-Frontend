@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { FaUser, FaLock, FaEye, FaEyeSlash, FaGoogle } from 'react-icons/fa';
+import { FaUser, FaLock, FaEye, FaEyeSlash } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import axios from 'axios';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -16,25 +17,39 @@ const Login = () => {
   const handleSubmit = async(e: React.FormEvent) => {
     e.preventDefault();
     
-    // Demo login - accept any email/password for testing
-    if (formData.email && formData.password) {
-      // Use AuthContext to login
-      login({
+    try {
+      const response = await axios.post('https://backend-server-5mwr.onrender.com/api/login', {
         email: formData.email,
-        name: formData.email.split('@')[0], // Simple name extraction
-        id: Date.now().toString()
+        password: formData.password,
       });
-      
-      navigate('/profile');
-    } else {
-      alert('Please enter both email and password');
+
+      if (response.status === 200) {
+        // Use AuthContext to login
+        login({
+          email: formData.email,
+          name: formData.email.split('@')[0], // Simple name extraction
+          id: response.data.user?.id || Date.now().toString(),
+          ...response.data.user
+        });
+        
+        navigate('/profile');
+      }
+    } catch (error: any) {
+      console.error('Login error:', error);
+      if (error.response) {
+        // Server responded with error
+        alert(error.response.data.message || 'Login failed. Please try again.');
+      } else if (error.request) {
+        // Network error
+        alert('Network error. Please check your connection and try again.');
+      } else {
+        // Other error
+        alert('An error occurred. Please try again.');
+      }
     }
   };
 
-  const handleGoogleLogin = () => {
-    // TODO: Implement Google OAuth
-    alert('Google login will be implemented here');
-  };
+
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -90,28 +105,6 @@ const Login = () => {
           </div>
 
           <h1 className="text-3xl font-bold text-center mb-8">Welcome Back</h1>
-          
-          {/* Google Login Button */}
-          <motion.button
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            onClick={handleGoogleLogin}
-            className="w-full flex items-center justify-center space-x-2 py-2 px-4 border border-gray-600 rounded-md shadow-sm text-sm font-medium text-white bg-navy-800 hover:bg-navy-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 mb-6"
-          >
-            <FaGoogle className="w-5 h-5" />
-            <span>Continue with Google</span>
-          </motion.button>
-
-          <div className="relative my-6">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-600"></div>
-            </div>
-            <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-navy-900 text-gray-400">
-                Or continue with email
-              </span>
-            </div>
-          </div>
           
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
