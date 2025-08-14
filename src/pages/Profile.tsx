@@ -74,7 +74,7 @@ const Profile: React.FC = () => {
     setError(null);
     
     try {
-      const res = await axios.get('http://localhost:3000/api/v1/auth/profile', {
+      const res = await axios.get('https://backend-server-5mwr.onrender.com/api/getprofile', {
         withCredentials: true
       });
       
@@ -745,3 +745,4 @@ const Profile: React.FC = () => {
 };
 
 export default Profile;
+
