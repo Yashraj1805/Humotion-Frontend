@@ -4,7 +4,6 @@ import { FaUser, FaEnvelope, FaLock, FaBuilding, FaPhone, FaMapMarkerAlt } from 
 import Header from '../components/Header';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
-import login from '../pages/Login'
 
 const Register = () => {
   const navigate = useNavigate();
@@ -98,7 +97,7 @@ const Register = () => {
 
       console.log(response.data.message || "Registration successful");
       localStorage.setItem('isLoggedIn', 'true');
-      navigate('/login');
+      navigate('/Login');
     } catch (error:any) {
       if( error.response?.data?.message){
         alert(error.response.data.message);
