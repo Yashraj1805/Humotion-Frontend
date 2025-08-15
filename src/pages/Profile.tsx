@@ -7,7 +7,7 @@ import axios from 'axios';
 const token = localStorage.getItem('token');
 
 
-console.log(token);
+
 
 interface ProfileData {
   name: string;
