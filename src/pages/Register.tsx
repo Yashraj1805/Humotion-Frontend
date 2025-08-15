@@ -97,7 +97,7 @@ const Register = () => {
 
       console.log(response.data.message || "Registration successful");
       localStorage.setItem('isLoggedIn', 'true');
-      navigate('/profile');
+      navigate('/login');
     } catch (error:any) {
       if( error.response?.data?.message){
         alert(error.response.data.message);
