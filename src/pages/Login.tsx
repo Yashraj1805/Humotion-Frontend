@@ -32,7 +32,7 @@ const Login = () => {
           ...response.data.user
         });
         
-        navigate('/profile');
+        navigate('/Profile');
       }
     } catch (error: any) {
       console.error('Login error:', error);
