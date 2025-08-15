@@ -13,7 +13,7 @@ const Register = () => {
     password: '',
     confirmPassword: '',
     company: '',
-    phone: '',
+    phoneNumber: '',
     location: ''
   });
 
@@ -62,8 +62,8 @@ const Register = () => {
     }*/
     
 
-    if (!formData.phone.trim()) {
-      newErrors.phone = 'Phone number is required';
+    if (!formData.phoneNumber.trim()) {
+      newErrors.phoneNumber = 'Phone number is required';
     }
 
     if (!formData.location.trim()) {
