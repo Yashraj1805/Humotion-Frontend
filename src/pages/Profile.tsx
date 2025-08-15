@@ -4,6 +4,7 @@ import { FaUser, FaEnvelope, FaPhone, FaBuilding, FaMapMarkerAlt, FaEdit, FaSave
 import Header from '../components/Header';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+const token = localStorage.getItem('token');
 
 interface ProfileData {
   name: string;
@@ -74,8 +75,10 @@ const Profile: React.FC = () => {
     setError(null);
     
     try {
-      const res = await axios.get('https://backend-server-5mwr.onrender.com/api/getprofile', {
-        withCredentials: true
+      const res = await axios.get('https://backend-server-5mwr.onrender.com/api/getprofile',{
+        headers: {
+          Authorization: `Bearer ${token}`, // ✅ Send token in header
+        },
       });
       
       console.log('API Response:', res.data);
