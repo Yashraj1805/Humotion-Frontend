@@ -277,8 +277,8 @@ const Register = () => {
                     </div>
                     <input
                       type="tel"
-                      name="phone"
-                      value={formData.phone}
+                      name="phoneNumber"
+                      value={formData.phoneNumber}
                       onChange={handleChange}
                       className={`pl-10 w-full px-4 py-3 bg-white/5 border ${
                         errors.phone ? 'border-red-500' : 'border-white/20'
@@ -287,7 +287,7 @@ const Register = () => {
                     />
                   </div>
                   {errors.phone && (
-                    <p className="mt-1 text-sm text-red-400">{errors.phone}</p>
+                    <p className="mt-1 text-sm text-red-400">{errors.phoneNumber}</p>
                   )}
                 </div>
 
