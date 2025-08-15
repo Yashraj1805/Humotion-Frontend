@@ -57,9 +57,10 @@ const Register = () => {
       newErrors.confirmPassword = 'Passwords do not match';
     }
 
-    if (!formData.company.trim()) {
-      newErrors.company = 'Company is required';
-    }
+   /* if (!formData.company.trim()) {
+      newErrors.company = ;
+    }*/
+    
 
     if (!formData.phone.trim()) {
       newErrors.phone = 'Phone number is required';
