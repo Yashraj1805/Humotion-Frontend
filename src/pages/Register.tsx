@@ -81,7 +81,7 @@ const Register = () => {
       const response = await axios.post(
         "https://backend-server-5mwr.onrender.com/api/register",
         {
-          fullname: formData.name,
+          name: formData.name,
           email: formData.email,
           password: formData.password,
           confirmPassword: formData.confirmPassword,
