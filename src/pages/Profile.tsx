@@ -6,9 +6,9 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 interface ProfileData {
-  fullname: string;
+  name: string;
   email: string;
-  phone: string;
+  phoneNumber: string;
   company: string;
   location: string;
   bio: string;
@@ -42,9 +42,9 @@ const Profile: React.FC = () => {
   });
   
   const [profileData, setProfileData] = useState<ProfileData>({
-    fullname: '',
+    name: '',
     email: '',
-    phone: '',
+    phoneNumber: '',
     company: '',
     location: '',
     bio: '',
