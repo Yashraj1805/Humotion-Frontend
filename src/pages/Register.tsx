@@ -281,12 +281,12 @@ const Register = () => {
                       value={formData.phoneNumber}
                       onChange={handleChange}
                       className={`pl-10 w-full px-4 py-3 bg-white/5 border ${
-                        errors.phone ? 'border-red-500' : 'border-white/20'
+                        errors.phoneNumber ? 'border-red-500' : 'border-white/20'
                       } rounded-xl focus:ring-2 focus:ring-blue-400 focus:border-transparent text-white placeholder-white/50`}
                       placeholder="Enter your phone number"
                     />
                   </div>
-                  {errors.phone && (
+                  {errors.phoneNumber && (
                     <p className="mt-1 text-sm text-red-400">{errors.phoneNumber}</p>
                   )}
                 </div>
