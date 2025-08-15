@@ -24,7 +24,7 @@ const Login = () => {
       });
 
        // Token save karo
-       localStorage.setItem("token", res.data.token); // ✅ token yahi save hoga
+       localStorage.setItem("token", response.data.token); // ✅ token yahi save hoga
 
       if (response.status === 200) {
         // Use AuthContext to login
