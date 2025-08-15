@@ -87,7 +87,7 @@ const Register = () => {
           password: formData.password,
           confirmPassword: formData.confirmPassword,
           company: formData.company,
-          phone: formData.phoneNumber,
+          phoneNumber: formData.phoneNumber,
           location: formData.location
         },
         {
