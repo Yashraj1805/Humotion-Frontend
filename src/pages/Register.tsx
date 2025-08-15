@@ -4,6 +4,7 @@ import { FaUser, FaEnvelope, FaLock, FaBuilding, FaPhone, FaMapMarkerAlt } from 
 import Header from '../components/Header';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
+import login from '../pages/Login'
 
 const Register = () => {
   const navigate = useNavigate();
