@@ -84,9 +84,9 @@ const Profile: React.FC = () => {
       const userData = res.data.data || res.data.user || res.data;
       
       const profileInfo: ProfileData = {
-        fullname: userData.name || userData.fullname || '',
+        name: userData.name || userData.name || '',
         email: userData.email || '',
-        phone: userData.phone || 'Not provided',
+        phoneNumber: userData.phoneNumber || 'Not provided',
         company: userData.company || 'Not provided',
         location: userData.location || 'Not provided',
         bio: userData.bio || 'No bio available yet',
