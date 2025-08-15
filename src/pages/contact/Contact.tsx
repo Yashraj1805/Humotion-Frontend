@@ -9,7 +9,7 @@ const Contact = () => {
     name: '',
     email: '',
     company: '',
-    phone: '',
+    phoneNumber: '',
     subject: '',
     message: ''
   });
@@ -32,7 +32,14 @@ const Contact = () => {
     
     try {
       // Replace with your actual backend endpoint
-      const response = await axios.post('https://backend-server-5mwr.onrender.com/api/createMessage', formData, {
+      const response = await axios.post('https://backend-server-5mwr.onrender.com/api/createMessage', {
+        name: formData.name,
+        email: formData.email,
+        company:formData.company,
+        phoneNumber:formData.phoneNumber,
+        subject: formData.subject,
+        message: formData.message,
+     }, {
         headers: {
           'Content-Type': 'application/json',
         }
@@ -44,7 +51,7 @@ const Contact = () => {
         name: '',
         email: '',
         company: '',
-        phone: '',
+        phoneNumber: '',
         subject: '',
         message: ''
       });
@@ -91,7 +98,7 @@ const Contact = () => {
     },
     {
       icon: <Phone className="w-6 h-6" />,
-      title: "Phone",
+      title: "PhoneNumber",
       details: ["+91 870082951", "+91 7827075810"],
       color: "from-blue-500 to-cyan-600"
     },
@@ -222,8 +229,8 @@ const Contact = () => {
                       <input
                         type="tel"
                         id="phone"
-                        name="phone"
-                        value={formData.phone}
+                        name="phoneNumber"
+                        value={formData.phoneNumber}
                         onChange={handleChange}
                         className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-colors"
                         placeholder="Enter Your Phone Number"
