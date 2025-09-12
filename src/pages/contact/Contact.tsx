@@ -99,7 +99,7 @@ const Contact = () => {
     {
       icon: <Phone className="w-6 h-6" />,
       title: "PhoneNumber",
-      details: ["+91 870082951", "+91 7827075810"],
+      details: ["+91 7827075810"],
       color: "from-blue-500 to-cyan-600"
     },
     {
