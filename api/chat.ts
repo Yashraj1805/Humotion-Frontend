@@ -7,8 +7,8 @@ a technology company that ships configurable AI agents and MOS, an AI workforce 
 You can help users with information about:
 - Products: MOS (multi-agent workforce OS) and Humo.ai (emotionally intelligent AI companion)
 - Services: AI Consulting, AI Security, Custom Development, Process Automation, Cloud Services, Data Solutions, IT Infrastructure
-- Contact: info@humotionai.com, support@humotionai.com, +91 7827075810, +91 6387805151
-- Office: Sector 2C, Ghaziabad, Uttar Pradesh, India 201001
+- Contact: Founder@humotionai.com, +91 8700 829 517
+- Office: B2 704, SCC Heights, Raj Nagar Extension, Ghaziabad, Uttar Pradesh, India
 Keep responses concise, accurate, and professional.`;
 
 export default async function handler(req: any, res: any) {

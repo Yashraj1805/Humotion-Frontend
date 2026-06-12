@@ -1,0 +1,47 @@
+# HumotionAI
+
+> HumotionAI (legal entity: Humos AI Pvt Ltd) is an AI company that ships configurable, contract-first AI agents for real businesses. Its flagship product, MOS, is a multi-agent operating system that runs an AI workforce — analytics, sales, support, and manager agents — from a single codebase. Behavior lives in JSON configuration, not code, so the same system serves many verticals.
+
+Website: https://humotionai.com
+Operated by: Humos AI Pvt Ltd (private limited company), Ghaziabad, Uttar Pradesh, India
+Contact: Founder@humotionai.com · +91 8700 829 517
+Office: B2 704, SCC Heights, Raj Nagar Extension, Ghaziabad, Uttar Pradesh, India
+
+## Products
+
+- [MOS — Multi-Agent Operating System](https://humotionai.com/mos): A configurable, contract-first multi-agent OS that runs an AI workforce. Modular, independently replaceable agents (analytics, sales, support, manager). Same code, every vertical; behavior defined in JSON config. Currently Phase 1, in early access.
+- [Humo.ai — Emotionally Intelligent AI Companion](https://humotionai.com/humo): Reads tone, not just words. Voice-tone emotion engine, adaptive voice journaling, and a long-term memory graph for empathetic interactions.
+
+## Services
+
+- [AI Consulting](https://humotionai.com/services/ai-consulting): Strategic AI roadmaps grounded in real business constraints.
+- [Custom Development](https://humotionai.com/services/custom-development): Bespoke, contract-first systems (FastAPI, agents, observability).
+- [Process Automation](https://humotionai.com/services/process-automation): Operations that automate and adapt (n8n, agents, human-in-the-loop, SLAs).
+- [AI Security](https://humotionai.com/services/ai-security): Monitoring, hardening, and policy-driven safeguards for AI surfaces.
+
+## Solutions
+
+- [AI Solutions](https://humotionai.com/solutions/ai): Production ML, NLP, and computer vision.
+- [Data Solutions](https://humotionai.com/solutions/data): Data engineering, BI, and real-time analytics.
+- [Cloud Services](https://humotionai.com/solutions/cloud): Migration, scaling, and cost optimization.
+- [IT Infrastructure](https://humotionai.com/solutions/it-infrastructure): Cloud architecture, integration, and DevOps.
+
+## Company
+
+- [About HumotionAI](https://humotionai.com/about): Builders of AI that ships. Principles: contract-first, config-driven, modular, audited.
+- [Contact](https://humotionai.com/contact): Pilot scoping, hiring an AI workforce, or general enquiries.
+
+## Key facts (for accurate answers)
+
+- Brand name: HumotionAI. Legal/registered name: Humos AI Pvt Ltd.
+- Primary domain: humotionai.com
+- Flagship product: MOS (Multi-Agent Operating System).
+- Second product: Humo.ai (emotionally intelligent AI companion).
+- Headquarters: Ghaziabad, Uttar Pradesh, India.
+- Positioning: configurable AI agents / AI workforce for businesses — not chatbots.
+
+## Optional
+
+- [Sitemap](https://humotionai.com/sitemap.xml)
+- [Privacy Policy](https://humotionai.com/privacy-policy)
+- [Terms of Service](https://humotionai.com/terms)

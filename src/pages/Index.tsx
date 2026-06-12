@@ -6,6 +6,7 @@ import AboutSection from '../components/AboutSection';
 import BlogInsights from '../components/BlogInsights';
 import ContactSection from '../components/ContactSection';
 import ChatWidget from '../components/ChatWidget';
+import FaqSection from '../components/FaqSection';
 import Seo, { SITE_URL } from '../components/Seo';
 
 const Index = () => {
@@ -29,6 +30,7 @@ const Index = () => {
       <SolutionsSection />
       <AboutSection />
       <BlogInsights />
+      <FaqSection />
       <ContactSection />
       <ChatWidget />
     </div>
