@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://humotionai.com/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://humotionai.com/mos</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://humotionai.com/humo</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://humotionai.com/services</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://humotionai.com/services/ai-consulting</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://humotionai.com/services/custom-development</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://humotionai.com/services/process-automation</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://humotionai.com/services/ai-security</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://humotionai.com/solutions</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://humotionai.com/solutions/ai</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://humotionai.com/solutions/data</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://humotionai.com/solutions/it-infrastructure</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://humotionai.com/solutions/cloud</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://humotionai.com/about</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://humotionai.com/contact</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://humotionai.com/blog/NeuralEmotions</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://humotionai.com/blog/AIMentalHealth</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://humotionai.com/blog/EmotionalAIFuture</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://humotionai.com/privacy-policy</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://humotionai.com/terms</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://humotionai.com/cookies</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
+</urlset>
