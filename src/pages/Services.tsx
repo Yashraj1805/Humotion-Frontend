@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { PageRoot, PageHero, Section, CTABand, ACCENT } from '../components/layout/PageShell';
+import Seo from '@/components/Seo';
 
 const services = [
   { id: '01', slug: 'ai-consulting',      title: 'ai consulting',      desc: 'Strategic AI roadmaps grounded in your real business constraints — not slide-deck demos.', bullets: ['discovery', 'mapping', 'rollout', 'governance'] },
@@ -12,6 +13,11 @@ const services = [
 
 const Services: React.FC = () => (
   <PageRoot>
+    <Seo
+      title="Services — AI Consulting, Development, Automation & Security | HumotionAI"
+      description="Contract-first AI engagements from HumotionAI: AI consulting, custom development, process automation, and AI security. Measurable deliverables, not promises."
+      path="/services"
+    />
     <PageHero
       section="02"
       label="services"

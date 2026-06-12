@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 
 import { ACCENT } from '@/lib/tokens';
+import Seo, { SITE_URL } from '@/components/Seo';
 
 const agents = [
   { id: '01', name: 'analytics.ai', status: 'READY', role: 'lead scoring · intent detection · routing',
@@ -70,6 +71,24 @@ const MosProduct: React.FC = () => {
         backgroundSize: '64px 64px',
       }}
     >
+      <Seo
+        title="MOS — Multi-Agent Operating System | HumotionAI"
+        description="MOS is HumotionAI's multi-agent operating system: configurable, contract-first AI agents for lead scoring, sales, support, and management. Same code, every vertical."
+        path="/mos"
+        type="product"
+        jsonLd={{
+          '@context': 'https://schema.org',
+          '@type': 'SoftwareApplication',
+          name: 'MOS — Multi-Agent Operating System',
+          applicationCategory: 'BusinessApplication',
+          operatingSystem: 'Web',
+          url: `${SITE_URL}/mos`,
+          description:
+            'A configurable, contract-first multi-agent operating system that runs an AI workforce — analytics, sales, support, and manager agents — from a single codebase.',
+          publisher: { '@type': 'Organization', name: 'HumotionAI', legalName: 'Humos AI Pvt Ltd' },
+          offers: { '@type': 'Offer', availability: 'https://schema.org/PreOrder', price: '0', priceCurrency: 'USD' },
+        }}
+      />
       {/* Top status strip */}
       <div className="border-b border-white/15 text-[11px] tracking-[0.18em] uppercase">
         <div className="max-w-[1400px] mx-auto px-6 py-3 flex items-center justify-between">

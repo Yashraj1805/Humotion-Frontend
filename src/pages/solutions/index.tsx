@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { PageRoot, PageHero, Section, CTABand, ACCENT } from '../../components/layout/PageShell';
+import Seo from '@/components/Seo';
 
 const solutions = [
   { id: '01', slug: 'ai',                 title: 'ai solutions',     desc: 'Production-grade ML, NLP, and vision systems engineered for real workloads.',     items: ['machine learning models', 'natural language processing', 'computer vision', 'predictive analytics'] },
@@ -12,6 +13,11 @@ const solutions = [
 
 const Solutions: React.FC = () => (
   <PageRoot>
+    <Seo
+      title="Solutions — AI, Data, Cloud & IT Infrastructure | HumotionAI"
+      description="End-to-end technology stacks from HumotionAI: AI/ML systems, data engineering, cloud services, and IT infrastructure — designed to ship and scale with discipline."
+      path="/solutions"
+    />
     <PageHero
       section="03"
       label="solutions"

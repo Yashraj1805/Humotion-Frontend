@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 
 import { ACCENT } from '@/lib/tokens';
+import Seo, { SITE_URL } from '@/components/Seo';
 
 const features = [
   { id: '01', name: 'emotion engine',  role: 'voice tone analysis · real-time',
@@ -51,6 +52,23 @@ const HumoProduct: React.FC = () => {
     <div
       className="min-h-screen pt-16 bg-[#0a0a0a] text-[#f2f2f2] font-mono selection:bg-[#d4ff00] selection:text-black bg-grid"
     >
+      <Seo
+        title="Humo.ai — Emotionally Intelligent AI Companion | HumotionAI"
+        description="Humo.ai reads tone, not just words. Voice journaling, an emotion engine, and a long-term memory graph for a genuinely empathetic AI companion."
+        path="/humo"
+        type="product"
+        jsonLd={{
+          '@context': 'https://schema.org',
+          '@type': 'SoftwareApplication',
+          name: 'Humo.ai — Emotionally Intelligent AI Companion',
+          applicationCategory: 'LifestyleApplication',
+          operatingSystem: 'Web',
+          url: `${SITE_URL}/humo`,
+          description:
+            'An emotionally intelligent AI companion with voice-tone analysis, adaptive voice journaling, and a long-term memory graph.',
+          publisher: { '@type': 'Organization', name: 'HumotionAI', legalName: 'Humos AI Pvt Ltd' },
+        }}
+      />
       {/* Status strip */}
       <div className="border-b border-white/15 text-[11px] tracking-[0.18em] uppercase">
         <div className="max-w-[1400px] mx-auto px-6 py-3 flex items-center justify-between">

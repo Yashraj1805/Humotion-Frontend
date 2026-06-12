@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { PageRoot, PageHero, Section, CTABand, ACCENT } from '../../components/layout/PageShell';
+import Seo from '@/components/Seo';
 
 const principles = [
   { k: 'CONTRACT', v: 'Every API, schema, and agent I/O frozen before code. Predictable systems beat clever ones.' },
@@ -26,6 +27,11 @@ const milestones = [
 const About: React.FC = () => {
   return (
     <PageRoot>
+      <Seo
+        title="About HumotionAI — Builders of AI That Ships"
+        description="HumotionAI (Humos AI Pvt Ltd) builds emotionally aware products and configurable agent systems for businesses that need real outcomes — contract-first, modular, audited."
+        path="/about"
+      />
       <PageHero
         section="01"
         label="about"

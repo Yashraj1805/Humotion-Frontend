@@ -24,9 +24,6 @@ const ChatWidget = () => {
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  // Use environment variable for Gemini API key. Set VITE_GEMINI_API_KEY in your .env file.
-  const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
-
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
@@ -41,65 +38,22 @@ const ChatWidget = () => {
 
   const callGeminiAPI = async (userMessage: string): Promise<string> => {
     try {
-      console.log('Making Gemini API call with key:', GEMINI_API_KEY.substring(0, 10) + '...');
-      
-      const requestBody = {
-        contents: [
-          {
-            parts: [
-              {
-                text: `You are Gemini AI, an AI assistant for HumotionAI, a technology company. You have full access to this website and can help users with information about:
-                - AI Consulting services
-                - AI Security solutions
-                - Custom Development
-                - Process Automation
-                - Cloud Services
-                - Data Solutions
-                - IT Infrastructure
-                - Company contact information (info@humotionai.com, support@humotionai.com, +91 7827075810, +91 6387805151)
-                - Office location (Sector 2C, Ghaziabad, Uttar Pradesh, India)
-                
-                Provide helpful, accurate information about HumotionAI's services and capabilities. Keep responses concise and professional.
-                
-                User question: ${userMessage}`
-              }
-            ]
-          }
-        ],
-        generationConfig: {
-          temperature: 0.7,
-          maxOutputTokens: 500,
-        }
-      };
-
-      console.log('Request body:', JSON.stringify(requestBody, null, 2));
-
-      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${GEMINI_API_KEY}`, {
+      // The Gemini key lives only on the server. We call our own /api/chat proxy.
+      const response = await fetch('/api/chat', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(requestBody)
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: userMessage }),
       });
 
-      console.log('Response status:', response.status);
-      console.log('Response headers:', Object.fromEntries(response.headers.entries()));
-
       if (!response.ok) {
-        const errorText = await response.text();
-        console.error('API Error Response:', errorText);
-        throw new Error(`API call failed: ${response.status} - ${errorText}`);
+        // Server unavailable / misconfigured — fall back to the built-in responder.
+        return generateLocalResponse(userMessage);
       }
 
       const data = await response.json();
-      console.log('API Response data:', data);
-      
-      return data.candidates[0]?.content?.parts[0]?.text || 'Sorry, I couldn\'t process your request at the moment.';
-    } catch (error) {
-      console.error('Gemini API Error:', error);
-      
-      // Fallback to local AI system
-      console.log('Using fallback local AI system');
+      return data?.reply || generateLocalResponse(userMessage);
+    } catch {
+      // Network error — use the local fallback so the widget always responds.
       return generateLocalResponse(userMessage);
     }
   };
