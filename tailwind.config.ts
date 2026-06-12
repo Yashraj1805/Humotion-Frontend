@@ -63,18 +63,32 @@ export default {
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
 				},
-				navy: {
-					50: '#f0f1ff',
-					100: '#e3e6ff',
-					200: '#cbd0ff',
-					300: '#a8afff',
-					400: '#7e84ff',
-					500: '#5558ff',
-					600: '#3d3bff',
-					700: '#2d2be3',
-					800: '#1f1db8',
-					900: '#0f0d3d',
-					950: '#070520'
+				/* Design-system semantic tokens (resolve to CSS vars in index.css) */
+				brand: {
+					DEFAULT: 'var(--brand)',
+					foreground: 'var(--brand-foreground)',
+					soft: 'var(--brand-soft)',
+				},
+				surface: {
+					0: 'var(--surface-0)',
+					1: 'var(--surface-1)',
+					2: 'var(--surface-2)',
+				},
+				line: {
+					DEFAULT: 'var(--line)',
+					strong: 'var(--line-strong)',
+				},
+				ink: {
+					DEFAULT: 'var(--text)',
+					muted: 'var(--text-muted)',
+					faint: 'var(--text-faint)',
+				},
+				/* Legacy alias — kept so existing `mos-*` utilities keep resolving */
+				mos: {
+					bg: 'var(--surface-0)',
+					fg: 'var(--text)',
+					line: 'var(--line-strong)',
+					accent: 'var(--brand)',
 				}
 			},
 			borderRadius: {
@@ -134,12 +148,15 @@ export default {
 				'float': 'float 6s ease-in-out infinite'
 			},
 			fontFamily: {
-				'futura': ['Montserrat', 'system-ui', 'sans-serif'],
+				'sans': ['"Space Grotesk"', 'system-ui', 'sans-serif'],
+				'display': ['"Space Grotesk"', 'system-ui', 'sans-serif'],
+				'futura': ['"Space Grotesk"', 'system-ui', 'sans-serif'],
+				'serif': ['"Instrument Serif"', 'serif'],
+				'mono': ['"JetBrains Mono"', '"IBM Plex Mono"', 'ui-monospace', 'monospace'],
 			},
-			backgroundImage: {
-				'gradient-brand': 'linear-gradient(135deg, #ef4444 0%, #3b82f6 100%)',
-				'gradient-navy': 'linear-gradient(135deg, #0f0d3d 0%, #1f1db8 100%)',
-				'gradient-subtle': 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)',
+			boxShadow: {
+				'glow': 'var(--brand-glow)',
+				'glow-sm': 'var(--brand-glow-sm)',
 			}
 		}
 	},

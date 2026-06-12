@@ -67,7 +67,7 @@ const Home = () => {
                   <div className="aspect-square rounded-2xl bg-white/10 backdrop-blur-lg p-8 border border-white/20 shadow-2xl">
                     <img 
                       src="/img/HUMOTION.AI1-removebg-preview.png" 
-                      alt="Humotion Pulse Logo" 
+                      alt="HumotionAI Pulse Logo"
                       className="w-full h-full object-contain"
                     />
                   </div>

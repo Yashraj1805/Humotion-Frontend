@@ -1,102 +1,113 @@
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
 
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Database, Cloud, Cpu, Network } from "lucide-react";
-import { Link } from "react-router-dom";
+import { ACCENT } from '@/lib/tokens';
 
 const solutions = [
   {
-    category: "AI Solutions",
-    icon: Cpu,
-    items: [
-      "Machine Learning Models",
-      "Natural Language Processing",
-      "Computer Vision Systems",
-      "Predictive Analytics"
-    ],
-    color: "from-purple-500 to-indigo-600"
+    id: '01',
+    slug: 'ai',
+    category: 'ai solutions',
+    items: ['Machine learning models', 'Natural language processing', 'Computer vision systems', 'Predictive analytics'],
   },
   {
-    category: "IT Infrastructure",
-    icon: Network,
-    items: [
-      "Cloud Architecture",
-      "System Integration",
-      "Network Security",
-      "DevOps Solutions"
-    ],
-    color: "from-blue-500 to-cyan-600"
+    id: '02',
+    slug: 'it-infrastructure',
+    category: 'it infrastructure',
+    items: ['Cloud architecture', 'System integration', 'Network security', 'DevOps solutions'],
   },
   {
-    category: "Data Solutions",
-    icon: Database,
-    items: [
-      "Data Engineering",
-      "Business Intelligence",
-      "Real-time Analytics",
-      "Data Governance"
-    ],
-    color: "from-green-500 to-emerald-600"
+    id: '03',
+    slug: 'data',
+    category: 'data solutions',
+    items: ['Data engineering', 'Business intelligence', 'Real-time analytics', 'Data governance'],
   },
   {
-    category: "Cloud Services",
-    icon: Cloud,
-    items: [
-      "Migration Strategy",
-      "Scalable Architecture",
-      "Performance Optimization",
-      "Cost Management"
-    ],
-    color: "from-orange-500 to-red-600"
-  }
+    id: '04',
+    slug: 'cloud',
+    category: 'cloud services',
+    items: ['Migration strategy', 'Scalable architecture', 'Performance optimization', 'Cost management'],
+  },
 ];
 
-const SolutionsSection = () => {
+const SolutionsSection: React.FC = () => {
   return (
-    <section id="solutions" className="py-20 bg-gradient-subtle">
-      <div className="container mx-auto px-4 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-navy-900 mb-6">
-            <span className="gradient-text">AI + IT</span> Solutions
-          </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Comprehensive technology solutions that combine the power of artificial intelligence 
-            with robust IT infrastructure to drive your business forward.
-          </p>
+    <section id="solutions" className="relative bg-[#0a0a0a] text-white py-24 border-b border-white/10">
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-12 gap-6 mb-16">
+          <div className="col-span-12 md:col-span-2 mono text-[11px] uppercase tracking-[0.22em] opacity-50">
+            <div>§ 03</div>
+            <div className="mt-1">solutions</div>
+          </div>
+          <div className="col-span-12 md:col-span-10">
+            <h2 className="display text-5xl md:text-7xl tracking-tight max-w-4xl">
+              ai <span style={{ color: ACCENT }}>+</span> infra.<br />
+              <span className="opacity-50">end to end.</span>
+            </h2>
+            <p className="mt-6 text-lg md:text-xl text-white/70 max-w-2xl">
+              Comprehensive technology stacks — combining AI with robust IT — designed to ship and scale.
+            </p>
+          </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8 mb-12">
-          {solutions.map((solution, index) => (
-            <Card 
-              key={index} 
-              className="group hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 border-0 bg-white"
+        <div className="border border-white/10">
+          {solutions.map((s, i) => (
+            <motion.div
+              key={s.id}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true, margin: '-60px' }}
+              transition={{ duration: 0.4, delay: i * 0.05 }}
+              className="border-b border-white/10 last:border-b-0"
             >
-              <CardContent className="p-8">
-                <div className={`w-16 h-16 mb-6 rounded-2xl bg-gradient-to-r ${solution.color} p-4 group-hover:scale-110 transition-transform duration-300`}>
-                  <solution.icon className="w-full h-full text-white" />
+              <Link
+                to={`/solutions/${s.slug}`}
+                className="grid grid-cols-12 gap-6 py-8 px-6 group hover:bg-white/[0.025] transition-colors"
+              >
+                <div className="col-span-2 md:col-span-1 mono text-[11px] uppercase tracking-[0.22em] opacity-50">[{s.id}]</div>
+                <div className="col-span-10 md:col-span-4">
+                  <h3 className="display text-2xl md:text-3xl tracking-tight group-hover:text-[var(--mos-accent,#d4ff00)] transition-colors">
+                    {s.category}
+                  </h3>
                 </div>
-                <h3 className="text-xl font-bold text-navy-900 mb-6">{solution.category}</h3>
-                <ul className="space-y-3">
-                  {solution.items.map((item, itemIndex) => (
-                    <li key={itemIndex} className="flex items-center text-gray-600">
-                      <div className="w-2 h-2 bg-gradient-brand rounded-full mr-3"></div>
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </CardContent>
-            </Card>
+                <div className="col-span-12 md:col-span-6">
+                  <ul className="grid grid-cols-1 sm:grid-cols-2 gap-y-2 gap-x-6">
+                    {s.items.map((item) => (
+                      <li key={item} className="flex items-start gap-3 text-sm text-white/70">
+                        <span style={{ color: ACCENT }} className="mt-1">▸</span>
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div className="col-span-12 md:col-span-1 flex md:justify-end items-start">
+                  <span
+                    style={{ color: ACCENT }}
+                    className="text-2xl opacity-50 group-hover:opacity-100 group-hover:translate-x-1 transition-all inline-block"
+                  >
+                    →
+                  </span>
+                </div>
+              </Link>
+            </motion.div>
           ))}
         </div>
 
-        <div className="text-center">
-          <Button 
-            size="lg" 
-            className="bg-gradient-brand hover:shadow-2xl transition-all duration-300 text-white font-semibold px-8 py-4 text-lg"
+        <div className="mt-12 flex items-center gap-3">
+          <Link
+            to="/solutions"
+            className="mono text-[11px] uppercase tracking-[0.22em] px-6 py-4 text-black transition-transform hover:-translate-y-px"
+            style={{ background: ACCENT }}
           >
-            <Link to="/solutions">Explore All Solutions</Link>
-            
-          </Button>
+            ▶ explore all solutions
+          </Link>
+          <Link
+            to="/contact"
+            className="mono text-[11px] uppercase tracking-[0.22em] px-2 py-4 text-white/60 hover:text-white link-draw"
+          >
+            or talk to engineering
+          </Link>
         </div>
       </div>
     </section>

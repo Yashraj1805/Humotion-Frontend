@@ -56,7 +56,7 @@ const ChatWidget = () => {
                 - Cloud Services
                 - Data Solutions
                 - IT Infrastructure
-                - Company contact information (info@humotion.ai, support@humotion.ai, +91 7827075810, +91 6387805151)
+                - Company contact information (info@humotionai.com, support@humotionai.com, +91 7827075810, +91 6387805151)
                 - Office location (Sector 2C, Ghaziabad, Uttar Pradesh, India)
                 
                 Provide helpful, accurate information about HumotionAI's services and capabilities. Keep responses concise and professional.
@@ -144,7 +144,7 @@ const ChatWidget = () => {
     
     // Contact Information
     if (lowerMessage.includes('contact') || lowerMessage.includes('email') || lowerMessage.includes('phone') || lowerMessage.includes('reach')) {
-      return "You can reach us through multiple channels:\n\n📧 Email: info@humotion.ai or support@humotion.ai\n📞 Phone: +91 7827075810 or +91 6387805151\n📍 Office: Sector 2C, Ghaziabad, Uttar Pradesh, India 201001\n\nWe're available Monday to Friday, 9 AM to 6 PM IST. For urgent matters, you can also use our contact form on the website.";
+      return "You can reach us through multiple channels:\n\n📧 Email: info@humotionai.com or support@humotionai.com\n📞 Phone: +91 7827075810 or +91 6387805151\n📍 Office: Sector 2C, Ghaziabad, Uttar Pradesh, India 201001\n\nWe're available Monday to Friday, 9 AM to 6 PM IST. For urgent matters, you can also use our contact form on the website.";
     }
     
     // Location/Address
@@ -154,7 +154,7 @@ const ChatWidget = () => {
     
     // Pricing/Cost
     if (lowerMessage.includes('pricing') || lowerMessage.includes('cost') || lowerMessage.includes('price') || lowerMessage.includes('quote')) {
-      return "Our pricing varies based on the specific solution and requirements. We offer flexible pricing models including project-based, retainer, and subscription options. For a personalized quote, I'd recommend contacting our sales team at info@humotion.ai or calling +91 7827075810. We'll schedule a consultation to understand your needs and provide a detailed proposal.";
+      return "Our pricing varies based on the specific solution and requirements. We offer flexible pricing models including project-based, retainer, and subscription options. For a personalized quote, I'd recommend contacting our sales team at info@humotionai.com or calling +91 7827075810. We'll schedule a consultation to understand your needs and provide a detailed proposal.";
     }
     
     // About Company
@@ -164,16 +164,16 @@ const ChatWidget = () => {
     
     // Services Overview
     if (lowerMessage.includes('service') || lowerMessage.includes('solution') || lowerMessage.includes('offer') || lowerMessage.includes('help')) {
-      return "Humotion offers comprehensive technology solutions including:\n\n🤖 AI Consulting & Strategy\n🔒 AI Security & Compliance\n💻 Custom Software Development\n⚡ Process Automation & RPA\n☁️ Cloud Services & Migration\n📊 Data Analytics & BI\n🏗️ IT Infrastructure & DevOps\n\nEach service is tailored to your specific business needs. How can we help you today?";
+      return "Humotionai offers comprehensive technology solutions including:\n\n🤖 AI Consulting & Strategy\n🔒 AI Security & Compliance\n💻 Custom Software Development\n⚡ Process Automation & RPA\n☁️ Cloud Services & Migration\n📊 Data Analytics & BI\n🏗️ IT Infrastructure & DevOps\n\nEach service is tailored to your specific business needs. How can we help you today?";
     }
     
     // Greeting/General
     if (lowerMessage.includes('hello') || lowerMessage.includes('hi') || lowerMessage.includes('hey')) {
-      return "Hello! I'm here to help you learn about Humotion's services and solutions. We specialize in AI consulting, custom development, process automation, cloud services, data solutions, and IT infrastructure. What would you like to know more about?";
+      return "Hello! I'm here to help you learn about Humotionai's services and solutions. We specialize in AI consulting, custom development, process automation, cloud services, data solutions, and IT infrastructure. What would you like to know more about?";
     }
     
     // Default response
-    return "Thank you for your question! I'm here to help you with information about Humotion's services and solutions. We offer AI consulting, security solutions, custom development, process automation, cloud services, data analytics, and IT infrastructure. Feel free to ask about any specific service or contact us directly at info@humotion.ai for personalized assistance.";
+    return "Thank you for your question! I'm here to help you with information about Humotionai's services and solutions. We offer AI consulting, security solutions, custom development, process automation, cloud services, data analytics, and IT infrastructure. Feel free to ask about any specific service or contact us directly at info@humotionai.com for personalized assistance.";
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -214,13 +214,13 @@ const ChatWidget = () => {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.9 }}
             transition={{ duration: 0.3 }}
-            className="absolute bottom-16 md:bottom-20 right-0 w-[calc(100vw-2rem)] max-w-sm md:w-96 bg-white/10 backdrop-blur-lg rounded-2xl shadow-2xl border border-white/20 overflow-hidden"
+            className="absolute bottom-16 md:bottom-20 right-0 w-[calc(100vw-2rem)] max-w-sm md:w-96 bg-[#0a0a0a] backdrop-blur-lg shadow-2xl border border-white/20 overflow-hidden"
           >
-            <div className="p-3 md:p-4 bg-gradient-to-r from-blue-500 to-purple-600">
-              <div className="flex justify-between items-center">
-                <div className="flex items-center space-x-2">
-                  <FaRobot className="w-4 h-4 md:w-5 md:h-5 text-white" />
-                  <h3 className="text-white font-semibold text-base md:text-lg">Gemini AI Assistant</h3>
+            <div className="p-3 md:p-4 border-b border-white/10 flex items-center" style={{ background: '#0a0a0a' }}>
+              <div className="flex justify-between items-center w-full">
+                <div className="flex items-center gap-2">
+                  <span className="inline-block w-2 h-2" style={{ background: '#d4ff00', boxShadow: '0 0 8px #d4ff00' }} />
+                  <h3 className="mono text-[11px] uppercase tracking-[0.22em] text-white">humotionai // assistant</h3>
                 </div>
                 <motion.button
                   whileHover={{ scale: 1.1 }}
@@ -237,14 +237,14 @@ const ChatWidget = () => {
                 <div key={msg.id} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
                   <div className={`flex items-start space-x-2 max-w-[85%] md:max-w-[80%] ${msg.sender === 'user' ? 'flex-row-reverse space-x-reverse' : ''}`}>
                     {msg.sender === 'grok' && (
-                      <div className="w-5 h-5 md:w-6 md:h-6 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center flex-shrink-0">
-                        <FaRobot className="w-2.5 h-2.5 md:w-3 md:h-3 text-white" />
+                      <div className="w-5 h-5 md:w-6 md:h-6 bg-[#d4ff00] rounded-full flex items-center justify-center flex-shrink-0">
+                        <FaRobot className="w-2.5 h-2.5 md:w-3 md:h-3 text-black" />
                       </div>
                     )}
                     <div className={`rounded-2xl px-3 py-2 md:px-4 md:py-2 ${
                       msg.sender === 'user' 
-                        ? 'bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-tr-none' 
-                        : 'bg-white/20 text-black rounded-tl-none'
+                        ? 'bg-[#d4ff00] text-black rounded-tr-none'
+                        : 'bg-white/10 text-white border border-white/10'
                     }`}>
                       <p className="text-xs md:text-sm whitespace-pre-wrap leading-relaxed">{msg.text}</p>
                       <p className="text-xs opacity-70 mt-1">
@@ -257,14 +257,14 @@ const ChatWidget = () => {
               {isLoading && (
                 <div className="flex justify-start">
                   <div className="flex items-start space-x-2 max-w-[85%] md:max-w-[80%]">
-                    <div className="w-5 h-5 md:w-6 md:h-6 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center flex-shrink-0">
-                      <FaRobot className="w-2.5 h-2.5 md:w-3 md:h-3 text-white" />
+                    <div className="w-5 h-5 md:w-6 md:h-6 bg-[#d4ff00] rounded-full flex items-center justify-center flex-shrink-0">
+                      <FaRobot className="w-2.5 h-2.5 md:w-3 md:h-3 text-black" />
                     </div>
-                    <div className="bg-white/20 text-black rounded-2xl rounded-tl-none px-3 py-2 md:px-4 md:py-2">
+                    <div className="bg-white/10 text-white border border-white/10 rounded-2xl rounded-tl-none px-3 py-2 md:px-4 md:py-2">
                       <div className="flex space-x-1">
-                        <div className="w-1.5 h-1.5 md:w-2 md:h-2 bg-gray-600 rounded-full animate-bounce"></div>
-                        <div className="w-1.5 h-1.5 md:w-2 md:h-2 bg-gray-600 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                        <div className="w-1.5 h-1.5 md:w-2 md:h-2 bg-gray-600 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                        <div className="w-1.5 h-1.5 md:w-2 md:h-2 bg-[#d4ff00] rounded-full animate-bounce"></div>
+                        <div className="w-1.5 h-1.5 md:w-2 md:h-2 bg-[#d4ff00] rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                        <div className="w-1.5 h-1.5 md:w-2 md:h-2 bg-[#d4ff00] rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
                       </div>
                     </div>
                 </div>
@@ -280,14 +280,14 @@ const ChatWidget = () => {
                   onChange={(e) => setMessage(e.target.value)}
                   placeholder="Ask Gemini AI anything..."
                   disabled={isLoading}
-                  className="flex-1 bg-white/10 border border-white/20 rounded-xl px-3 py-2 md:px-4 md:py-2 text-sm md:text-base text-black placeholder-black/50 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:bg-white/20 disabled:opacity-50"
+                  className="flex-1 bg-transparent border border-white/15 px-3 py-2 md:px-4 md:py-2 text-sm md:text-base text-white placeholder-white/30 focus:outline-none focus:border-[#d4ff00] disabled:opacity-50 transition-colors"
                 />
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   type="submit"
                   disabled={isLoading || !message.trim()}
-                  className="bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-xl px-3 py-2 md:px-4 md:py-2 hover:from-blue-600 hover:to-purple-700 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex-shrink-0"
+                  className="bg-[#d4ff00] text-black px-3 py-2 md:px-4 md:py-2 hover:-translate-y-px transition-transform duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex-shrink-0"
                 >
                   <FaPaperPlane className="w-4 h-4 md:w-5 md:h-5" />
                 </motion.button>
@@ -301,14 +301,16 @@ const ChatWidget = () => {
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
         onClick={toggleChat}
-        className="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white rounded-full p-3 md:p-4 shadow-lg hover:shadow-xl transition-all duration-300"
+        className="bg-[#d4ff00] text-black p-3 md:p-4 shadow-lg hover:shadow-xl transition-all duration-300"
+        style={{ boxShadow: '0 0 24px rgba(212,255,0,0.4)' }}
       >
         <div className="relative">
           <FaComments className="w-5 h-5 md:w-6 md:h-6" />
           <motion.div
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
-            className="absolute -top-1 -right-1 w-2.5 h-2.5 md:w-3 md:h-3 bg-green-400 rounded-full"
+            className="absolute -top-1 -right-1 w-2.5 h-2.5 md:w-3 md:h-3 rounded-full"
+            style={{ background: 'var(--brand)' }}
           />
         </div>
       </motion.button>

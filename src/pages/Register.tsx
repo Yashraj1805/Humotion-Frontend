@@ -1,343 +1,132 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { FaUser, FaEnvelope, FaLock, FaBuilding, FaPhone, FaMapMarkerAlt } from 'react-icons/fa';
-import Header from '../components/Header';
-import { useNavigate, Link } from 'react-router-dom';
-import axios from 'axios';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 
-const Register = () => {
+import { ACCENT } from '@/lib/tokens';
+
+const Register: React.FC = () => {
+  const [form, setForm] = useState({ name: '', email: '', password: '', confirm: '' });
+  const [loading, setLoading] = useState(false);
+  const [err, setErr] = useState<string | null>(null);
+  const { login } = useAuth();
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-    company: '',
-    phoneNumber: '',
-    location: ''
-  });
 
-  const [errors, setErrors] = useState<Record<string, string>>({});
+  const handle = (e: React.ChangeEvent<HTMLInputElement>) =>
+    setForm((p) => ({ ...p, [e.target.name]: e.target.value }));
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
-    // Clear error when user starts typing
-    if (errors[name]) {
-      setErrors(prev => ({
-        ...prev,
-        [name]: ''
-      }));
-    }
-  };
-
-  const validateForm = () => {
-    const newErrors: Record<string, string> = {};
-
-    if (!formData.name.trim()) {
-      newErrors.name = 'Name is required';
-    }
-
-    if (!formData.email.trim()) {
-      newErrors.email = 'Email is required';
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = 'Email is invalid';
-    }
-
-    if (!formData.password) {
-      newErrors.password = 'Password is required';
-    } else if (formData.password.length < 8) {
-      newErrors.password = 'Password must be at least 8 characters';
-    }
-
-    if (formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = 'Passwords do not match';
-    }
-
-   /* if (!formData.company.trim()) {
-      newErrors.company = ;
-    }*/
-    
-
-    if (!formData.phoneNumber.trim()) {
-      newErrors.phoneNumber = 'Phone number is required';
-    }
-
-    if (!formData.location.trim()) {
-      newErrors.location = 'Location is required';
-    }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
+  const submit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if(!validateForm ())return;
-
-    try {
-      const response = await axios.post(
-        "https://backend-server-5mwr.onrender.com/api/register",
-        {
-          name: formData.name,
-          email: formData.email,
-          password: formData.password,
-          confirmPassword: formData.confirmPassword,
-          company: formData.company,
-          phoneNumber: formData.phoneNumber,
-          location: formData.location
-        },
-        {
-          withCredentials: true,
-        }
-      );
-
-      console.log(response.data.message || "Registration successful");
-      localStorage.setItem('isLoggedIn', 'true');
-      navigate('/Login');
-    } catch (error:any) {
-      if( error.response?.data?.message){
-        alert(error.response.data.message);
-      }else{
-        alert("An error occurred during registration. Please try again.");
-      }
-    }
-    // if (validateForm()) {
-    //   // Create user profile
-    //   const userProfile = {
-    //     name: formData.name,
-    //     email: formData.email,
-    //     company: formData.company,
-    //     phone: formData.phone,
-    //     location: formData.location,
-    //     joinDate: new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
-    //   };
-
-    //   // Save to localStorage
-    //   localStorage.setItem('userProfile', JSON.stringify(userProfile));
-    //   localStorage.setItem('isLoggedIn', 'true');
-
-    //   // Navigate to profile page
-    //   navigate('/profile');
-    // }
+    setErr(null);
+    if (!form.name || !form.email || !form.password) return setErr('all fields required.');
+    if (form.password !== form.confirm) return setErr('passwords do not match.');
+    setLoading(true);
+    await new Promise((r) => setTimeout(r, 600));
+    login({ name: form.name, email: form.email });
+    setLoading(false);
+    navigate('/profile');
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-blue-900">
-      <Header />
-      
-      <main className="pt-20 pb-12">
-        <div className="container mx-auto px-4">
-          <div className="max-w-2xl mx-auto">
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="bg-white/10 backdrop-blur-lg rounded-2xl shadow-2xl p-8 border border-white/20"
-            >
-              <h1 className="text-4xl font-bold text-center text-white mb-8">Create Account</h1>
-              
-              <form onSubmit={handleSubmit} className="space-y-6">
-                {/* Name */}
-                <div>
-                  <label className="block text-sm font-medium text-white/90 mb-2">
-                    Full Name
-                  </label>
-                  <div className="relative">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <FaUser className="h-5 w-5 text-blue-400" />
-                    </div>
-                    <input
-                      type="text"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleChange}
-                      className={`pl-10 w-full px-4 py-3 bg-white/5 border ${
-                        errors.name ? 'border-red-500' : 'border-white/20'
-                      } rounded-xl focus:ring-2 focus:ring-blue-400 focus:border-transparent text-white placeholder-white/50`}
-                      placeholder="Enter your full name"
-                    />
-                  </div>
-                  {errors.name && (
-                    <p className="mt-1 text-sm text-red-400">{errors.name}</p>
-                  )}
-                </div>
-
-                {/* Email */}
-                <div>
-                  <label className="block text-sm font-medium text-white/90 mb-2">
-                    Email Address
-                  </label>
-                  <div className="relative">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <FaEnvelope className="h-5 w-5 text-blue-400" />
-                    </div>
-                    <input
-                      type="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      className={`pl-10 w-full px-4 py-3 bg-white/5 border ${
-                        errors.email ? 'border-red-500' : 'border-white/20'
-                      } rounded-xl focus:ring-2 focus:ring-blue-400 focus:border-transparent text-white placeholder-white/50`}
-                      placeholder="Enter your email"
-                    />
-                  </div>
-                  {errors.email && (
-                    <p className="mt-1 text-sm text-red-400">{errors.email}</p>
-                  )}
-                </div>
-
-                {/* Password */}
-                <div>
-                  <label className="block text-sm font-medium text-white/90 mb-2">
-                    Password
-                  </label>
-                  <div className="relative">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <FaLock className="h-5 w-5 text-blue-400" />
-                    </div>
-                    <input
-                      type="password"
-                      name="password"
-                      value={formData.password}
-                      onChange={handleChange}
-                      className={`pl-10 w-full px-4 py-3 bg-white/5 border ${
-                        errors.password ? 'border-red-500' : 'border-white/20'
-                      } rounded-xl focus:ring-2 focus:ring-blue-400 focus:border-transparent text-white placeholder-white/50`}
-                      placeholder="Create a password"
-                    />
-                  </div>
-                  {errors.password && (
-                    <p className="mt-1 text-sm text-red-400">{errors.password}</p>
-                  )}
-                </div>
-
-                {/* Confirm Password */}
-                <div>
-                  <label className="block text-sm font-medium text-white/90 mb-2">
-                    Confirm Password
-                  </label>
-                  <div className="relative">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <FaLock className="h-5 w-5 text-blue-400" />
-                    </div>
-                    <input
-                      type="password"
-                      name="confirmPassword"
-                      value={formData.confirmPassword}
-                      onChange={handleChange}
-                      className={`pl-10 w-full px-4 py-3 bg-white/5 border ${
-                        errors.confirmPassword ? 'border-red-500' : 'border-white/20'
-                      } rounded-xl focus:ring-2 focus:ring-blue-400 focus:border-transparent text-white placeholder-white/50`}
-                      placeholder="Confirm your password"
-                    />
-                  </div>
-                  {errors.confirmPassword && (
-                    <p className="mt-1 text-sm text-red-400">{errors.confirmPassword}</p>
-                  )}
-                </div>
-
-                {/* Company */}
-                <div>
-                  <label className="block text-sm font-medium text-white/90 mb-2">
-                    Company
-                  </label>
-                  <div className="relative">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <FaBuilding className="h-5 w-5 text-blue-400" />
-                    </div>
-                    <input
-                      type="text"
-                      name="company"
-                      value={formData.company}
-                      onChange={handleChange}
-                      className={`pl-10 w-full px-4 py-3 bg-white/5 border ${
-                        errors.company ? 'border-red-500' : 'border-white/20'
-                      } rounded-xl focus:ring-2 focus:ring-blue-400 focus:border-transparent text-white placeholder-white/50`}
-                      placeholder="Enter your company name"
-                    />
-                  </div>
-                  {errors.company && (
-                    <p className="mt-1 text-sm text-red-400">{errors.company}</p>
-                  )}
-                </div>
-
-                {/* Phone */}
-                <div>
-                  <label className="block text-sm font-medium text-white/90 mb-2">
-                    Phone Number
-                  </label>
-                  <div className="relative">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <FaPhone className="h-5 w-5 text-blue-400" />
-                    </div>
-                    <input
-                      type="tel"
-                      name="phoneNumber"
-                      value={formData.phoneNumber}
-                      onChange={handleChange}
-                      className={`pl-10 w-full px-4 py-3 bg-white/5 border ${
-                        errors.phoneNumber ? 'border-red-500' : 'border-white/20'
-                      } rounded-xl focus:ring-2 focus:ring-blue-400 focus:border-transparent text-white placeholder-white/50`}
-                      placeholder="Enter your phone number"
-                    />
-                  </div>
-                  {errors.phoneNumber && (
-                    <p className="mt-1 text-sm text-red-400">{errors.phoneNumber}</p>
-                  )}
-                </div>
-
-                {/* Location */}
-                <div>
-                  <label className="block text-sm font-medium text-white/90 mb-2">
-                    Location
-                  </label>
-                  <div className="relative">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <FaMapMarkerAlt className="h-5 w-5 text-blue-400" />
-                    </div>
-                    <input
-                      type="text"
-                      name="location"
-                      value={formData.location}
-                      onChange={handleChange}
-                      className={`pl-10 w-full px-4 py-3 bg-white/5 border ${
-                        errors.location ? 'border-red-500' : 'border-white/20'
-                      } rounded-xl focus:ring-2 focus:ring-blue-400 focus:border-transparent text-white placeholder-white/50`}
-                      placeholder="Enter your location"
-                    />
-                  </div>
-                  {errors.location && (
-                    <p className="mt-1 text-sm text-red-400">{errors.location}</p>
-                  )}
-                </div>
-
-                <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  type="submit"
-                  className="w-full py-4 px-6 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-xl hover:from-blue-600 hover:to-purple-700 transition-all duration-300 font-semibold text-lg shadow-lg hover:shadow-xl"
-                >
-                  Create Account
-                </motion.button>
-
-                <p className="text-center text-white/80">
-                  Already have an account?{' '}
-                  <Link to="/login" className="text-blue-400 hover:text-blue-300 font-medium">
-                    Sign in
-                  </Link>
-                </p>
-              </form>
-            </motion.div>
+    <div className="min-h-screen bg-[#0a0a0a] text-white bg-grid pt-28 pb-20">
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-12 gap-6">
+          <div className="hidden md:block md:col-span-2 mono text-[11px] uppercase tracking-[0.22em] opacity-50">
+            <div>§ auth</div>
+            <div className="mt-1">register</div>
           </div>
+
+          <div className="col-span-12 md:col-span-5">
+            <div
+              className="inline-flex items-center gap-2 mono text-[10px] uppercase tracking-[0.22em] px-2 py-1 border mb-8"
+              style={{ color: ACCENT, borderColor: ACCENT }}
+            >
+              <span className="inline-block w-1.5 h-1.5" style={{ background: ACCENT }} />
+              new tenant
+            </div>
+            <h1 className="display text-6xl md:text-8xl tracking-tight">
+              join<br />
+              <span style={{ color: ACCENT }}>humotionai.</span>
+            </h1>
+            <p className="mt-8 text-base text-white/65 max-w-md">
+              Get access to Humo.ai, the MOS workspace, and our experimental product line. Free during early access.
+            </p>
+
+            <ul className="mt-8 space-y-2 mono text-[11px] uppercase tracking-[0.18em] text-white/60">
+              {['humo.ai voice journaling', 'mos config + leads', 'early-access updates', 'no credit card'].map((p) => (
+                <li key={p} className="flex items-center gap-2">
+                  <span style={{ color: ACCENT }}>▸</span> {p}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4 }}
+            className="col-span-12 md:col-span-5"
+          >
+            <div className="border border-white/15 bg-black/40">
+              <div className="flex items-center justify-between px-5 py-3 mono text-[10px] uppercase tracking-[0.22em] opacity-60 border-b border-white/10">
+                <span>~/register</span>
+                <span className="flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-white/30" />
+                  <span className="w-1.5 h-1.5 rounded-full bg-white/30" />
+                  <span className="w-1.5 h-1.5 rounded-full" style={{ background: ACCENT }} />
+                </span>
+              </div>
+              <form onSubmit={submit} className="p-6 md:p-8 space-y-5">
+                {[
+                  { name: 'name',     type: 'text',     label: 'name',             placeholder: 'your name' },
+                  { name: 'email',    type: 'email',    label: 'email',            placeholder: 'you@domain.com' },
+                  { name: 'password', type: 'password', label: 'password',         placeholder: '••••••••' },
+                  { name: 'confirm',  type: 'password', label: 'confirm password', placeholder: '••••••••' },
+                ].map((f) => (
+                  <div key={f.name}>
+                    <label className="mono text-[10px] uppercase tracking-[0.22em] opacity-60 mb-2 block">// {f.label}</label>
+                    <input
+                      name={f.name}
+                      type={f.type}
+                      value={(form as any)[f.name]}
+                      onChange={handle}
+                      placeholder={f.placeholder}
+                      disabled={loading}
+                      className="w-full bg-transparent border border-white/15 focus:border-[var(--mos-accent,#d4ff00)] outline-none px-4 py-3 text-white placeholder-white/30 transition-colors"
+                    />
+                  </div>
+                ))}
+
+                {err && (
+                  <div className="px-4 py-3 mono text-[11px] uppercase tracking-[0.22em] border border-red-400/40 text-red-300">
+                    ! {err}
+                  </div>
+                )}
+
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full py-4 px-6 mono text-[11px] uppercase tracking-[0.22em] text-black disabled:opacity-60"
+                  style={{ background: ACCENT }}
+                >
+                  {loading ? <>provisioning<span className="caret">_</span></> : '▶ create account'}
+                </button>
+
+                <div className="flex items-center justify-between mono text-[11px] uppercase tracking-[0.22em] pt-3 border-t border-white/10">
+                  <Link to="/login" className="link-draw text-white/65 hover:text-white">
+                    have an account? login →
+                  </Link>
+                  <Link to="/" className="link-draw text-white/40 hover:text-white">
+                    ← back home
+                  </Link>
+                </div>
+              </form>
+            </div>
+          </motion.div>
         </div>
-      </main>
+      </div>
     </div>
   );
 };
 
-export default Register; 
+export default Register;

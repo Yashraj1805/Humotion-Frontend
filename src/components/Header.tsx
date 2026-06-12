@@ -1,110 +1,211 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
-import { FaBars, FaTimes, FaUser, FaCog, FaSignOutAlt } from 'react-icons/fa';
+import React, { useEffect, useState } from 'react';
+import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
+import { AnimatePresence, motion } from 'framer-motion';
 import { useIsMobile } from '../hooks/use-mobile';
 import { useAuth } from '../contexts/AuthContext';
 
-const Header = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isProfileOpen, setIsProfileOpen] = useState(false);
+import { ACCENT } from '@/lib/tokens';
+
+const navItems = [
+  { name: 'index',     path: '/',          tag: '00' },
+  { name: 'about',     path: '/about',     tag: '01' },
+  { name: 'services',  path: '/services',  tag: '02' },
+  { name: 'solutions', path: '/solutions', tag: '03' },
+  { name: 'contact',   path: '/contact',   tag: '05' },
+];
+
+const products = [
+  { name: 'humo.ai', path: '/humo', tagline: 'emotionally intelligent ai companion' },
+  { name: 'mos',     path: '/mos',  tagline: 'multi-agent operating system', badge: 'NEW' },
+];
+
+const Header: React.FC = () => {
+  const [open, setOpen] = useState(false);
+  const [productsOpen, setProductsOpen] = useState(false);
+  const [profileOpen, setProfileOpen] = useState(false);
+  const [time, setTime] = useState<string>(() => new Date().toISOString().slice(11, 19));
   const { isLoggedIn, user, logout } = useAuth();
   const isMobile = useIsMobile();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    const t = setInterval(() => setTime(new Date().toISOString().slice(11, 19)), 1000);
+    return () => clearInterval(t);
+  }, []);
+
+  useEffect(() => {
+    setOpen(false);
+    setProductsOpen(false);
+    setProfileOpen(false);
+  }, [location.pathname]);
 
   const handleLogout = () => {
     logout();
-    setIsProfileOpen(false);
+    setProfileOpen(false);
     navigate('/');
   };
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
-
-  const toggleProfile = () => {
-    setIsProfileOpen(!isProfileOpen);
-  };
-
-  const menuItems = [
-    { name: 'Home', path: '/' },
-    { name: 'About', path: '/about' },
-    { name: 'Services', path: '/services' },
-    { name: 'Contact', path: '/contact' },
-  ];
-
   return (
-    <header className="fixed w-full bg-navy-900/95 backdrop-blur-sm z-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
+    <header className="fixed inset-x-0 top-0 z-50 bg-[#0a0a0a]/85 backdrop-blur-md border-b border-white/10">
+      {/* Status strip */}
+      <div className="border-b border-white/5">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-1.5 flex items-center justify-between text-[10px] mono uppercase tracking-[0.22em] opacity-60">
+          <span>humotionai // ai workforce</span>
+          <span className="hidden sm:flex items-center gap-2">
+            <span className="inline-block w-1.5 h-1.5" style={{ background: ACCENT }} />
+            online · {time} UTC
+          </span>
+        </div>
+      </div>
+
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link to="/" className="flex items-center">
-              <motion.img 
-                src="/img/HUMOTION.AI1-removebg-preview.png" 
-                alt="Humotion.AI Logo" 
-              className="h-12 w-auto"
-              whileHover={{ scale: 1.05 }}
-              transition={{ type: "spring", stiffness: 400, damping: 10 }}
+          <Link to="/" className="flex items-center gap-3 group">
+            <span
+              className="inline-block w-2.5 h-2.5"
+              style={{ background: ACCENT, boxShadow: '0 0 12px rgba(212,255,0,0.7)' }}
             />
+            <span className="display text-xl tracking-tight text-white group-hover:text-[var(--mos-accent,#d4ff00)] transition-colors">
+              humotionai<span style={{ color: ACCENT }}>.</span>
+            </span>
           </Link>
 
-          {/* Desktop Navigation */}
+          {/* Desktop nav */}
           {!isMobile && (
-            <nav className="flex items-center space-x-8">
-              {menuItems.map((item) => (
-                <Link
+            <nav className="flex items-center gap-1">
+              {navItems.map((item) => (
+                <NavLink
                   key={item.name}
                   to={item.path}
-                  className="text-gray-300 hover:text-white transition-colors duration-200"
+                  end={item.path === '/'}
+                  className={({ isActive }) =>
+                    `group relative px-3 py-2 mono text-[11px] uppercase tracking-[0.22em] transition-colors ${
+                      isActive ? 'text-white' : 'text-white/55 hover:text-white'
+                    }`
+                  }
                 >
-                  {item.name}
-                </Link>
+                  {({ isActive }) => (
+                    <span className="flex items-center gap-2">
+                      <span className="opacity-40">[{item.tag}]</span>
+                      <span>{item.name}</span>
+                      {isActive && (
+                        <span
+                          className="absolute left-3 right-3 -bottom-px h-px"
+                          style={{ background: ACCENT }}
+                        />
+                      )}
+                    </span>
+                  )}
+                </NavLink>
               ))}
-                
-              {/* Login/Profile Button */}
-              {isLoggedIn ? (
-                <div className="relative">
-                  <button
-                    onClick={toggleProfile}
-                    className="flex items-center space-x-2 text-gray-300 hover:text-white transition-colors duration-200"
-                  >
-                    <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center">
-                      {user?.name?.charAt(0) || 'U'}
-                    </div>
-                    <span>{user?.name || 'User'}</span>
-                  </button>
 
-                  {/* Profile Dropdown */}
-                  <AnimatePresence>
-                    {isProfileOpen && (
-                      <motion.div
-                        initial={{ opacity: 0, y: -10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -10 }}
-                        className="absolute right-0 mt-2 w-48 bg-navy-800 rounded-md shadow-lg py-1"
-                      >
+              {/* Products dropdown */}
+              <div
+                className="relative"
+                onMouseEnter={() => setProductsOpen(true)}
+                onMouseLeave={() => setProductsOpen(false)}
+              >
+                <button
+                  className="group flex items-center gap-2 px-3 py-2 mono text-[11px] uppercase tracking-[0.22em] text-white/55 hover:text-white transition-colors"
+                  onClick={() => setProductsOpen((v) => !v)}
+                  aria-expanded={productsOpen}
+                >
+                  <span className="opacity-40">[04]</span>
+                  <span>products</span>
+                  <span style={{ color: ACCENT }}>▾</span>
+                </button>
+                <AnimatePresence>
+                  {productsOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -6 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -6 }}
+                      transition={{ duration: 0.12 }}
+                      className="absolute right-0 mt-1 w-80 bg-[#0a0a0a] border border-white/15"
+                    >
+                      <div className="px-4 py-2 mono text-[10px] uppercase tracking-[0.22em] opacity-40 border-b border-white/10">
+                        // shipped + shipping
+                      </div>
+                      {products.map((p) => (
                         <Link
-                          to="/profile"
-                          className="flex items-center px-4 py-2 text-sm text-gray-300 hover:bg-navy-700"
-                          onClick={() => setIsProfileOpen(false)}
+                          key={p.path}
+                          to={p.path}
+                          className="block px-4 py-4 border-b border-white/5 hover:bg-white/5 transition-colors group"
+                          onClick={() => setProductsOpen(false)}
                         >
-                          <FaUser className="mr-2" />
-                          Profile
+                          <div className="flex items-center justify-between">
+                            <span className="display text-lg text-white group-hover:text-[var(--mos-accent,#d4ff00)] transition-colors">
+                              {p.name}
+                            </span>
+                            {p.badge && (
+                              <span
+                                className="mono text-[9px] tracking-[0.22em] px-2 py-0.5 border"
+                                style={{ color: ACCENT, borderColor: ACCENT }}
+                              >
+                                {p.badge}
+                              </span>
+                            )}
+                          </div>
+                          <div className="mono text-[11px] opacity-50 mt-1">{p.tagline}</div>
                         </Link>
-                          <Link
-                          to="/settings"
-                          className="flex items-center px-4 py-2 text-sm text-gray-300 hover:bg-navy-700"
-                          onClick={() => setIsProfileOpen(false)}
-                          >
-                          <FaCog className="mr-2" />
-                          Settings
-                          </Link>
+                      ))}
+                      <div className="px-4 py-3 mono text-[10px] uppercase tracking-[0.22em] opacity-50">
+                        <Link to="/contact" className="link-draw">
+                          → talk to a human
+                        </Link>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+
+              <div className="w-px h-5 bg-white/15 mx-3" />
+
+              {/* CTA */}
+              <Link
+                to="/contact"
+                className="mono text-[11px] uppercase tracking-[0.22em] px-3 py-2 text-black transition-transform hover:-translate-y-px"
+                style={{ background: ACCENT }}
+              >
+                ▶ book demo
+              </Link>
+
+              {/* Auth */}
+              {isLoggedIn ? (
+                <div className="relative ml-1">
+                  <button
+                    onClick={() => setProfileOpen((v) => !v)}
+                    className="flex items-center gap-2 px-3 py-2 mono text-[11px] uppercase tracking-[0.22em] text-white/70 hover:text-white"
+                  >
+                    <span
+                      className="inline-flex items-center justify-center w-6 h-6 text-[10px] font-bold text-black"
+                      style={{ background: ACCENT }}
+                    >
+                      {user?.name?.charAt(0)?.toUpperCase() || 'U'}
+                    </span>
+                    {user?.name?.split(' ')[0] || 'user'}
+                  </button>
+                  <AnimatePresence>
+                    {profileOpen && (
+                      <motion.div
+                        initial={{ opacity: 0, y: -6 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -6 }}
+                        className="absolute right-0 mt-1 w-48 bg-[#0a0a0a] border border-white/15 mono text-[11px] uppercase tracking-[0.22em]"
+                      >
+                        <Link to="/profile" className="block px-4 py-3 text-white/70 hover:text-white hover:bg-white/5 border-b border-white/5">
+                          profile
+                        </Link>
+                        <Link to="/settings" className="block px-4 py-3 text-white/70 hover:text-white hover:bg-white/5 border-b border-white/5">
+                          settings
+                        </Link>
                         <button
                           onClick={handleLogout}
-                          className="flex items-center w-full px-4 py-2 text-sm text-gray-300 hover:bg-navy-700"
+                          className="block w-full text-left px-4 py-3 text-white/70 hover:text-white hover:bg-white/5"
                         >
-                          <FaSignOutAlt className="mr-2" />
-                          Logout
+                          logout ↗
                         </button>
                       </motion.div>
                     )}
@@ -113,96 +214,96 @@ const Header = () => {
               ) : (
                 <Link
                   to="/login"
-                  className="flex items-center space-x-2 text-gray-300 hover:text-white transition-colors duration-200"
+                  className="mono text-[11px] uppercase tracking-[0.22em] px-3 py-2 text-white/55 hover:text-white"
                 >
-                  <FaUser className="w-5 h-5" />
-                  <span>Login</span>
+                  login
                 </Link>
               )}
             </nav>
           )}
 
-          {/* Mobile Menu Button */}
+          {/* Mobile toggle */}
           {isMobile && (
             <button
-              onClick={toggleMenu}
-              className="text-gray-300 hover:text-white focus:outline-none"
+              onClick={() => setOpen((v) => !v)}
+              className="mono text-[11px] uppercase tracking-[0.22em] text-white border border-white/20 px-3 py-1.5"
+              aria-label="toggle menu"
             >
-              {isMenuOpen ? (
-                <FaTimes className="h-6 w-6" />
-              ) : (
-                <FaBars className="h-6 w-6" />
-              )}
+              {open ? '× close' : '≡ menu'}
             </button>
           )}
         </div>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile drawer */}
       <AnimatePresence>
-        {isMobile && isMenuOpen && (
+        {isMobile && open && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="bg-navy-800"
+            className="border-t border-white/10 bg-[#0a0a0a]"
           >
-            <div className="px-2 pt-2 pb-3 space-y-1">
-              {menuItems.map((item) => (
-                <Link
+            <div className="px-4 py-4">
+              {navItems.map((item) => (
+                <NavLink
                   key={item.name}
                   to={item.path}
-                  className="block px-3 py-2 text-gray-300 hover:text-white hover:bg-navy-700 rounded-md"
-                  onClick={() => setIsMenuOpen(false)}
+                  end={item.path === '/'}
+                  className={({ isActive }) =>
+                    `flex items-center justify-between py-3 mono text-sm uppercase tracking-[0.22em] border-b border-white/5 ${
+                      isActive ? 'text-white' : 'text-white/60'
+                    }`
+                  }
                 >
-                  {item.name}
+                  <span className="flex items-center gap-3">
+                    <span className="opacity-40 text-xs">[{item.tag}]</span>
+                    {item.name}
+                  </span>
+                  <span className="opacity-40">→</span>
+                </NavLink>
+              ))}
+
+              <div className="pt-3 mono text-[10px] uppercase tracking-[0.22em] opacity-50">products</div>
+              {products.map((p) => (
+                <Link
+                  key={p.path}
+                  to={p.path}
+                  className="flex items-center justify-between py-3 border-b border-white/5"
+                >
+                  <span className="display text-lg text-white">{p.name}</span>
+                  {p.badge && (
+                    <span
+                      className="mono text-[9px] tracking-[0.22em] px-2 py-0.5 border"
+                      style={{ color: ACCENT, borderColor: ACCENT }}
+                    >
+                      {p.badge}
+                    </span>
+                  )}
                 </Link>
               ))}
-              
-              {/* Mobile Login/Profile */}
-              {isLoggedIn ? (
-                <>
-                  <Link
-                    to="/profile"
-                    className="flex items-center px-3 py-2 text-gray-300 hover:text-white hover:bg-navy-700 rounded-md"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    <FaUser className="mr-2" />
-                    Profile
-                  </Link>
-                  <Link
-                    to="/settings"
-                    className="flex items-center px-3 py-2 text-gray-300 hover:text-white hover:bg-navy-700 rounded-md"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    <FaCog className="mr-2" />
-                    Settings
-                  </Link>
-                  <button
-                    onClick={() => {
-                      handleLogout();
-                      setIsMenuOpen(false);
-                    }}
-                    className="flex items-center w-full px-3 py-2 text-gray-300 hover:text-white hover:bg-navy-700 rounded-md"
-                  >
-                    <FaSignOutAlt className="mr-2" />
-                    Logout
-                  </button>
-                </>
-              ) : (
+
+              <div className="mt-5 flex flex-col gap-3">
                 <Link
-                  to="/login"
-                  className="flex items-center px-3 py-2 text-gray-300 hover:text-white hover:bg-navy-700 rounded-md"
-                  onClick={() => setIsMenuOpen(false)}
+                  to="/contact"
+                  className="text-center mono text-[11px] uppercase tracking-[0.22em] px-4 py-3 text-black"
+                  style={{ background: ACCENT }}
                 >
-                  <FaUser className="mr-2" />
-                  Login
+                  ▶ book demo
                 </Link>
-              )}
+                {!isLoggedIn && (
+                  <Link
+                    to="/login"
+                    className="text-center mono text-[11px] uppercase tracking-[0.22em] px-4 py-3 border border-white/30 text-white"
+                  >
+                    login
+                  </Link>
+                )}
               </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 };

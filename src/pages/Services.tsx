@@ -1,136 +1,94 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import Header from "@/components/Header";
-import { Link } from "react-router-dom";
-import { Brain, Code, Cpu, Shield } from 'lucide-react';
+import { PageRoot, PageHero, Section, CTABand, ACCENT } from '../components/layout/PageShell';
 
 const services = [
-  {
-    title: "AI Consulting",
-    description: "Expert guidance on implementing AI solutions in your business",
-    icon: <Brain className="w-8 h-8" />,
-    color: "from-purple-500 to-indigo-600",
-    link: "/services/ai-consulting"
-  },
-  {
-    title: "Custom Development",
-    description: "Tailored software solutions to meet your specific needs",
-    icon: <Code className="w-8 h-8" />,
-    color: "from-blue-500 to-cyan-600",
-    link: "/services/custom-development"
-  },
-  {
-    title: "Process Automation",
-    description: "Streamline your operations with intelligent automation",
-    icon: <Cpu className="w-8 h-8" />,
-    color: "from-green-500 to-emerald-600",
-    link: "/services/process-automation"
-  },
-  {
-    title: "AI Security",
-    description: "Protect your AI systems with advanced security measures",
-    icon: <Shield className="w-8 h-8" />,
-    color: "from-red-500 to-orange-600",
-    link: "/services/ai-security"
-  }
+  { id: '01', slug: 'ai-consulting',      title: 'ai consulting',      desc: 'Strategic AI roadmaps grounded in your real business constraints — not slide-deck demos.', bullets: ['discovery', 'mapping', 'rollout', 'governance'] },
+  { id: '02', slug: 'custom-development', title: 'custom development', desc: 'Bespoke systems that bridge innovation and pragmatism. Built to last.', bullets: ['fastapi', 'contracts', 'agents', 'observability'] },
+  { id: '03', slug: 'process-automation', title: 'process automation', desc: 'Operations that automate and adapt — not workflows that break the moment reality hits.', bullets: ['n8n', 'agents', 'humans', 'sla'] },
+  { id: '04', slug: 'ai-security',        title: 'ai security',        desc: 'Protect AI surfaces with monitoring, hardening, and policy-driven safeguards.', bullets: ['injection', 'filters', 'pii', 'red-team'] },
 ];
 
-const Services = () => {
-  return (
-    <div className="min-h-screen">
-      <Header />
-      <main className="pt-20">
-        {/* Hero Section */}
-        <section className="bg-gradient-to-r from-gray-900 to-gray-800 text-white py-20">
-          <div className="container mx-auto px-4">
-            <motion.h1 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="text-5xl font-bold mb-6"
-            >
-              Our <span className="gradient-text">Services</span>
-            </motion.h1>
-            <motion.p 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              className="text-xl text-gray-300 max-w-3xl"
-            >
-              Discover how our AI-powered solutions can transform your business and drive innovation.
-            </motion.p>
-          </div>
-        </section>
+const Services: React.FC = () => (
+  <PageRoot>
+    <PageHero
+      section="02"
+      label="services"
+      eyebrow="four practice areas · contract-first"
+      titleTop={<>engineering,</>}
+      titleBottom="not promises."
+      subtitle="Every engagement is contract-first. Every deliverable is measurable. Pick a practice area below or talk to us directly."
+      ctaPrimary={{ to: '/contact', label: 'scope a project' }}
+      ctaSecondary={{ to: '/solutions', label: 'see solutions' }}
+    />
 
-        {/* Services Grid */}
-        <section className="py-20">
-          <div className="container mx-auto px-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-              {services.map((service, index) => (
-                <motion.div
-                  key={service.title}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1 }}
-                  whileHover={{ y: -5 }}
-                  className="bg-white rounded-xl shadow-lg p-8 hover:shadow-xl transition-all"
-                >
-                  <div className={`w-16 h-16 mb-6 rounded-2xl bg-gradient-to-r ${service.color} p-4 text-white`}>
-                    {service.icon}
-                  </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-4">{service.title}</h3>
-                  <p className="text-gray-600 mb-6">{service.description}</p>
-                  <Link 
-                    to={service.link}
-                    className="inline-flex items-center text-blue-600 hover:text-blue-700 font-medium"
-                  >
-                    Learn More
-                    <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                    </svg>
-                  </Link>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </section>
+    <Section section="01" label="practice areas">
+      <div className="border-t border-white/10">
+        {services.map((s, i) => (
+          <motion.div
+            key={s.id}
+            initial={{ opacity: 0, y: 14 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-60px' }}
+            transition={{ duration: 0.45, delay: i * 0.06 }}
+            className="group border-b border-white/10"
+          >
+            <Link to={`/services/${s.slug}`} className="grid grid-cols-12 gap-6 py-10 hover:bg-white/[0.025] transition-colors">
+              <div className="col-span-2 md:col-span-1 mono text-[11px] uppercase tracking-[0.22em] opacity-50">[{s.id}]</div>
+              <div className="col-span-10 md:col-span-3">
+                <h3 className="display text-2xl md:text-4xl tracking-tight group-hover:text-[var(--mos-accent,#d4ff00)] transition-colors">
+                  {s.title}
+                </h3>
+              </div>
+              <div className="col-span-12 md:col-span-5 text-base text-white/70 max-w-xl">{s.desc}</div>
+              <div className="col-span-12 md:col-span-2 flex flex-wrap gap-1.5">
+                {s.bullets.slice(0, 3).map((b) => (
+                  <span key={b} className="mono text-[9px] uppercase tracking-[0.18em] px-1.5 py-0.5 border border-white/15 text-white/55">
+                    {b}
+                  </span>
+                ))}
+              </div>
+              <div className="col-span-12 md:col-span-1 flex md:justify-end items-start">
+                <span style={{ color: ACCENT }} className="text-2xl group-hover:translate-x-1 transition-transform inline-block">→</span>
+              </div>
+            </Link>
+          </motion.div>
+        ))}
+      </div>
+    </Section>
 
-        {/* CTA Section */}
-        <section className="py-20 bg-gray-50">
-          <div className="container mx-auto px-4 text-center">
-            <motion.h2 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="text-3xl font-bold text-gray-900 mb-6"
-            >
-              Ready to Transform Your Business?
-            </motion.h2>
-            <motion.p 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.2 }}
-              className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto"
-            >
-              Let's discuss how our services can help you achieve your goals
-            </motion.p>
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="inline-block"
-            >
-              <Link
-                to="/contact"
-                className="inline-block bg-gradient-to-r from-blue-500 to-blue-600 text-white px-8 py-4 rounded-lg font-semibold hover:from-blue-600 hover:to-blue-700 transition-all shadow-lg hover:shadow-xl"
-              >
-                Get Started
-              </Link>
-            </motion.div>
+    <Section
+      section="02"
+      label="process"
+      title={<>how we <span style={{ color: ACCENT }}>operate.</span></>}
+      intro="No surprise deliverables. No expanding scope. No ghost handoffs."
+      grid
+    >
+      <div className="grid grid-cols-1 md:grid-cols-5 gap-px bg-white/10 border border-white/10">
+        {[
+          { k: 'DISCOVER', d: 'Map current state. Find the lever.' },
+          { k: 'CONTRACT', d: 'Freeze schemas + scope upfront.' },
+          { k: 'BUILD',    d: 'Vertical slices. Demo weekly.' },
+          { k: 'TEST',     d: 'Real data. Real users. Real edges.' },
+          { k: 'HANDOFF',  d: 'Docs, runbooks, observability.' },
+        ].map((p, i) => (
+          <div key={p.k} className="bg-[#0a0a0a] p-6">
+            <div className="mono text-[10px] uppercase tracking-[0.22em] opacity-50 mb-2">step 0{i + 1}</div>
+            <div className="display text-xl tracking-tight mb-2" style={{ color: ACCENT }}>{p.k}</div>
+            <div className="text-sm text-white/70">{p.d}</div>
           </div>
-        </section>
-      </main>
-    </div>
-  );
-};
+        ))}
+      </div>
+    </Section>
 
-export default Services; 
+    <CTABand
+      title={<>have a problem to <span style={{ color: ACCENT }}>solve?</span></>}
+      subtitle="Tell us the constraint, not the spec. We'll come back with options."
+      primary={{ to: '/contact', label: 'book a scoping call' }}
+      secondary={{ to: '/about', label: 'who we are' }}
+    />
+  </PageRoot>
+);
+
+export default Services;

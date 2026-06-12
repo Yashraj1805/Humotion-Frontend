@@ -1,245 +1,125 @@
-import React, { useState, useEffect } from "react";
-import { motion } from "framer-motion";
-import {
-  FaUser,
-  FaEnvelope,
-  FaPhone,
-  FaBuilding,
-  FaMapMarkerAlt,
-  FaEdit,
-  FaCamera,
-  FaTrash,
-  FaSpinner,
-} from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import Header from "../components/Header";
+import React from 'react';
+import { Link, Navigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
+
+import { ACCENT } from '@/lib/tokens';
 
 const Profile: React.FC = () => {
-  const navigate = useNavigate();
-  const token = localStorage.getItem("token");
+  const { isLoggedIn, user, logout } = useAuth();
+  if (!isLoggedIn) return <Navigate to="/login" replace />;
 
-  const [isEditing, setIsEditing] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isSaving, setIsSaving] = useState(false);
-  const [profileImage, setProfileImage] = useState<string | null>(null);
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState<string | null>(null);
+  const initials = (user?.name || 'U').split(' ').map((p: string) => p[0]).join('').slice(0, 2).toUpperCase();
 
-  const [profileData, setProfileData] = useState({
-    name: "",
-    email: "",
-    phoneNumber: "",
-    company: "",
-    location: "",
-    role: "User",
-    joinDate: new Date().toLocaleDateString(),
-  });
-
-  useEffect(() => {
-    fetchProfile();
-    loadProfileImage();
-  }, []);
-
-  const fetchProfile = async () => {
-    setIsLoading(true);
-    try {
-      const res = await axios.get(
-        "https://backend-server-5mwr.onrender.com/api/getprofile",
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
-      const userData = res.data.data || res.data.user || res.data;
-      setProfileData({
-        name: userData.name || "",
-        email: userData.email || "",
-        phoneNumber: userData.phoneNumber || "",
-        company: userData.company || "",
-        location: userData.location || "",
-        role: userData.role || "User",
-        joinDate: formatDate(userData.joinDate || userData.createdAt),
-      });
-    } catch (err: any) {
-      if (err.response?.status === 401) {
-        setError("Session expired. Redirecting to login...");
-        setTimeout(() => navigate("/login"), 2000);
-      } else {
-        setError("Failed to load profile");
-      }
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const formatDate = (dateString: string) => {
-    try {
-      return new Date(dateString).toLocaleDateString("en-US", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      });
-    } catch {
-      return dateString;
-    }
-  };
-
-  const loadProfileImage = () => {
-    const savedImage = localStorage.getItem("profileImage");
-    if (savedImage) setProfileImage(savedImage);
-  };
-
-  const handleEdit = () => setIsEditing(true);
-  const handleCancel = () => {
-    setIsEditing(false);
-    fetchProfile();
-  };
-
-  const handleSave = async () => {
-    setIsSaving(true);
-    try {
-      const res = await axios.put(
-        "https://backend-server-5mwr.onrender.com/api/updateprofile",
-        profileData,
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-      setProfileData(res.data.data || res.data.user || res.data);
-      setIsEditing(false);
-      setSuccess("Profile updated successfully!");
-    } catch {
-      setError("Failed to update profile");
-    } finally {
-      setIsSaving(false);
-    }
-  };
-
-  const handleChange = (e: any) => {
-    setProfileData({ ...profileData, [e.target.name]: e.target.value });
-  };
-
-  const handleImageUpload = (e: any) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const imageData = reader.result as string;
-        setProfileImage(imageData);
-        localStorage.setItem("profileImage", imageData);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
-  const handleDeleteAccount = async () => {
-    try {
-      await axios.delete(
-        "https://backend-server-5mwr.onrender.com/api/deleteprofile",
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-      localStorage.clear();
-      navigate("/login");
-    } catch {
-      setError("Failed to delete account");
-    }
-  };
-
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        <FaSpinner className="text-white text-4xl animate-spin" />
-      </div>
-    );
-  }
+  const sessions = [
+    { id: '01', when: 'today · 09:14', what: 'humo // voice journaling',  state: 'completed' },
+    { id: '02', when: 'today · 11:02', what: 'mos // config update',       state: 'completed' },
+    { id: '03', when: 'yesterday',     what: 'humo // memory graph sync',  state: 'completed' },
+  ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-blue-900 text-white">
-      <Header />
-
-      <main className="pt-28 pb-12">
-        <div className="container mx-auto px-4 max-w-4xl space-y-8">
-
-          {error && <div className="bg-red-500 p-3 rounded">{error}</div>}
-          {success && <div className="bg-green-500 p-3 rounded">{success}</div>}
-
-          {/* Top Profile Card */}
-          <motion.div className="bg-white/10 rounded-2xl shadow-lg p-6 border border-white/20">
-            <div className="flex flex-col items-center">
-              <div className="relative w-32 h-32 rounded-full overflow-hidden border-4 border-white">
-                <img
-                  src={profileImage || "https://via.placeholder.com/150?text=Profile"}
-                  alt="Profile"
-                  className="w-full h-full object-cover"
-                />
-                <label className="absolute bottom-0 right-0 bg-blue-600 p-2 rounded-full cursor-pointer">
-                  <FaCamera />
-                  <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
-                </label>
+    <div className="min-h-screen bg-[#0a0a0a] text-white bg-grid pt-28 pb-20">
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-12 gap-6 mb-12">
+          <div className="hidden md:block md:col-span-2 mono text-[11px] uppercase tracking-[0.22em] opacity-50">
+            <div>§ user</div>
+            <div className="mt-1">profile</div>
+          </div>
+          <div className="col-span-12 md:col-span-10 flex flex-col md:flex-row md:items-end gap-8">
+            <div className="flex items-center gap-6">
+              <div
+                className="display text-5xl text-black w-24 h-24 flex items-center justify-center"
+                style={{ background: ACCENT }}
+              >
+                {initials}
               </div>
-              <h1 className="mt-4 text-3xl font-bold">{profileData.name}</h1>
-              <p className="text-white/70">{profileData.role}</p>
-              <p className="text-white/50">Member since {profileData.joinDate}</p>
-            </div>
-          </motion.div>
-
-          {/* Editable Form */}
-          <motion.div className="bg-white/10 rounded-2xl shadow-lg p-6 border border-white/20">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <InputField icon={<FaUser />} name="name" label="Full Name" value={profileData.name} isEditing={isEditing} onChange={handleChange} />
-              <InputField icon={<FaEnvelope />} name="email" label="Email" value={profileData.email} isEditing={isEditing} onChange={handleChange} />
-              <InputField icon={<FaPhone />} name="phoneNumber" label="Phone Number" value={profileData.phoneNumber} isEditing={isEditing} onChange={handleChange} />
-              <InputField icon={<FaBuilding />} name="company" label="Company" value={profileData.company} isEditing={isEditing} onChange={handleChange} />
-              <InputField icon={<FaMapMarkerAlt />} name="location" label="Location" value={profileData.location} isEditing={isEditing} onChange={handleChange} />
+              <div>
+                <div className="mono text-[10px] uppercase tracking-[0.22em] opacity-60 mb-2">// account</div>
+                <h1 className="display text-4xl md:text-5xl tracking-tight">{user?.name || 'user'}</h1>
+                <div className="mono text-[11px] uppercase tracking-[0.22em] text-white/60 mt-2">{user?.email || '—'}</div>
+              </div>
             </div>
 
-            <div className="flex gap-4 mt-6">
-              {isEditing ? (
-                <>
-                  <button onClick={handleSave} className="bg-green-600 px-4 py-2 rounded" disabled={isSaving}>
-                    {isSaving ? "Saving..." : "Save"}
-                  </button>
-                  <button onClick={handleCancel} className="bg-gray-600 px-4 py-2 rounded">Cancel</button>
-                </>
-              ) : (
-                <button onClick={handleEdit} className="bg-blue-600 px-4 py-2 rounded"><FaEdit /> Edit</button>
-              )}
-              <button onClick={() => setShowDeleteModal(true)} className="bg-red-600 px-4 py-2 rounded ml-auto">
-                <FaTrash /> Delete Account
+            <div className="md:ml-auto flex flex-wrap gap-2">
+              <Link
+                to="/settings"
+                className="mono text-[11px] uppercase tracking-[0.22em] px-4 py-3 border border-white/25 hover:border-white text-white/80 hover:text-white transition-colors"
+              >
+                settings →
+              </Link>
+              <button
+                onClick={logout}
+                className="mono text-[11px] uppercase tracking-[0.22em] px-4 py-3 text-black"
+                style={{ background: ACCENT }}
+              >
+                ▶ logout
               </button>
             </div>
-          </motion.div>
-
-          {/* Delete Modal */}
-          {showDeleteModal && (
-            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-              <div className="bg-white text-black p-6 rounded-lg">
-                <h2 className="text-lg font-bold mb-4">Are you sure you want to delete your account?</h2>
-                <div className="flex gap-4">
-                  <button onClick={handleDeleteAccount} className="bg-red-600 text-white px-4 py-2 rounded">Yes, Delete</button>
-                  <button onClick={() => setShowDeleteModal(false)} className="bg-gray-300 px-4 py-2 rounded">Cancel</button>
-                </div>
-              </div>
-            </div>
-          )}
-
+          </div>
         </div>
-      </main>
+
+        <div className="grid grid-cols-12 gap-6">
+          {/* Stats */}
+          <div className="col-span-12 md:col-span-4">
+            <div className="border border-white/15">
+              <div className="px-4 py-2 mono text-[10px] uppercase tracking-[0.22em] opacity-60 border-b border-white/10">
+                // stats
+              </div>
+              {[
+                { k: '01', label: 'humo sessions',  value: '24', unit: 'lifetime' },
+                { k: '02', label: 'mos workspaces', value: '2',  unit: 'active' },
+                { k: '03', label: 'tokens used',    value: '18k', unit: 'this month' },
+                { k: '04', label: 'plan',           value: 'free', unit: 'early access' },
+              ].map((s) => (
+                <div key={s.k} className="px-4 py-4 flex items-baseline justify-between border-b border-white/10 last:border-0">
+                  <div className="mono text-[10px] uppercase tracking-[0.22em] opacity-50">[{s.k}] {s.label}</div>
+                  <div className="text-right">
+                    <span className="display text-2xl" style={{ color: ACCENT }}>{s.value}</span>
+                    <span className="mono text-[10px] uppercase tracking-[0.22em] opacity-50 ml-2">{s.unit}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Recent activity */}
+          <div className="col-span-12 md:col-span-8">
+            <div className="mono text-[10px] uppercase tracking-[0.22em] opacity-50 mb-4 pb-2 border-b border-white/10">
+              // recent activity
+            </div>
+            <div className="border border-white/10">
+              {sessions.map((s) => (
+                <div key={s.id} className="grid grid-cols-12 gap-4 px-4 py-4 border-b border-white/10 last:border-0 group hover:bg-white/[0.025] transition-colors">
+                  <div className="col-span-2 md:col-span-1 mono text-[11px] uppercase tracking-[0.22em] opacity-50">[{s.id}]</div>
+                  <div className="col-span-10 md:col-span-4 mono text-[11px] uppercase tracking-[0.22em] text-white/60">{s.when}</div>
+                  <div className="col-span-12 md:col-span-5 text-sm text-white">{s.what}</div>
+                  <div className="col-span-12 md:col-span-2 md:text-right">
+                    <span className="mono text-[10px] uppercase tracking-[0.22em] px-2 py-1 border" style={{ color: ACCENT, borderColor: ACCENT }}>
+                      ● {s.state}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-6 flex flex-wrap gap-3">
+              <Link
+                to="/humo"
+                className="mono text-[11px] uppercase tracking-[0.22em] px-5 py-3 border border-white/25 hover:border-white text-white/80 hover:text-white transition-colors"
+              >
+                continue humo →
+              </Link>
+              <Link
+                to="/mos"
+                className="mono text-[11px] uppercase tracking-[0.22em] px-5 py-3 border border-white/25 hover:border-white text-white/80 hover:text-white transition-colors"
+              >
+                open mos →
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
-
-const InputField = ({ icon, label, name, value, isEditing, onChange }: any) => (
-  <div>
-    <label className="block mb-1">{label}</label>
-    <div className="flex items-center bg-white bg-opacity-20 p-2 rounded">
-      <span className="mr-2">{icon}</span>
-      {isEditing ? (
-        <input type="text" name={name} value={value} onChange={onChange} className="bg-transparent outline-none flex-1" />
-      ) : (
-        <span>{value}</span>
-      )}
-    </div>
-  </div>
-);
 
 export default Profile;

@@ -1,138 +1,37 @@
 import React from 'react';
-import { motion } from 'framer-motion';
-import { FaInfoCircle, FaDatabase, FaShieldAlt, FaUserShield, FaEnvelope, FaHistory } from 'react-icons/fa';
+import PolicyTemplate from '../components/layout/PolicyTemplate';
+import { ACCENT } from '../components/layout/PageShell';
 
-const PrivacyPolicy: React.FC = () => {
-  return (
-    <div className="min-h-screen bg-navy-950 text-white py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-4xl mx-auto">
-        <div className="bg-navy-900 shadow-lg rounded-lg p-8">
-          <div className="flex items-center justify-center mb-8">
-            <motion.div 
-              className="w-24 h-24 flex items-center justify-center bg-white/5 rounded-xl p-2"
-              whileHover={{ scale: 1.1 }}
-              animate={{ 
-                y: [0, -5, 0],
-                rotate: [0, 2, 0, -2, 0]
-              }}
-              transition={{ 
-                y: {
-                  duration: 2,
-                  repeat: Infinity,
-                  ease: "easeInOut"
-                },
-                rotate: {
-                  duration: 4,
-                  repeat: Infinity,
-                  ease: "easeInOut"
-                }
-              }}
-            >
-              <motion.img 
-                src="/img/HUMOTION.AI1-removebg-preview.png" 
-                alt="Humotion.AI Logo" 
-                className="w-full h-full object-contain"
-                animate={{ 
-                  filter: [
-                    "brightness(1)",
-                    "brightness(1.2)",
-                    "brightness(1)"
-                  ]
-                }}
-                transition={{ 
-                  duration: 2,
-                  repeat: Infinity,
-                  ease: "easeInOut"
-                }}
-              />
-            </motion.div>
-          </div>
-          <h1 className="text-3xl font-bold text-center mb-8">Privacy Policy</h1>
-          
-          <div className="space-y-6 text-gray-300">
-            <section>
-              <h2 className="text-xl font-semibold text-white mb-4 flex items-center"><FaInfoCircle className="mr-3 text-2xl text-blue-400" />1. Introduction</h2>
-              <p className="mb-4">
-                At Humotion Pulse, we take your privacy seriously. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website and use our AI-powered services.
-              </p>
-            </section>
+const PrivacyPolicy: React.FC = () => (
+  <PolicyTemplate
+    section="legal.01"
+    label="privacy policy"
+    lastUpdated="2026-04-01"
+    title={<>privacy <span style={{ color: ACCENT }}>policy.</span></>}
+    intro="Humotion AI is operated by Humos AI Pvt Ltd. We collect the minimum we need to make our products work — nothing more. Here's what, why, and how to control it."
+    sections={[
+      { heading: 'what we collect', paragraphs: [
+        'Account data — name, email, password hash, and basic preferences.',
+        'Usage data — interactions with Humo.ai (voice journals, detected emotional state, response history) and MOS workspace activity. Voice data is processed in-memory by default; you choose whether to persist it.',
+        'Telemetry — anonymized performance metrics, error reports, and crash logs. No conversation content is included in telemetry.',
+      ]},
+      { heading: 'why we collect it', paragraphs: [
+        'To provide the products. Personalization, memory graphs, and session continuity all require limited persistence.',
+        'To improve the products. Aggregate, anonymized metrics inform model and UX improvements.',
+        'To meet legal obligations and to respond if you contact support.',
+      ]},
+      { heading: 'how we protect it', paragraphs: [
+        'Encryption at rest and in transit. Access controls on production systems are role-based, audited, and time-bound.',
+        'We do not sell your data. We do not share content with advertisers. We do not train foundation models on your conversations unless you explicitly opt in.',
+      ]},
+      { heading: 'your rights', paragraphs: [
+        'You can export your data, delete your account, opt out of training, and request human review of automated decisions at any time. Email founder@humotionai.com to exercise these rights — we respond within 7 days.',
+      ]},
+      { heading: 'contact', paragraphs: [
+        'Questions, requests, or concerns: Founder@humotionai.com. Or use the contact form on this site.',
+      ]},
+    ]}
+  />
+);
 
-            <section>
-              <h2 className="text-xl font-semibold text-white mb-4 flex items-center"><FaDatabase className="mr-3 text-2xl text-green-400" />2. Information We Collect</h2>
-              <p className="mb-4">
-                We may collect information about you in various ways, including:
-              </p>
-              <ul className="list-disc pl-6 space-y-2">
-                <li>Personal information (name, email address, phone number)</li>
-                <li>Usage data and analytics for our AI services</li>
-                <li>Device and browser information</li>
-                <li>Cookies and similar tracking technologies</li>
-                <li>Data related to your interaction with our AI solutions</li>
-              </ul>
-            </section>
-
-            <section>
-              <h2 className="text-xl font-semibold text-white mb-4 flex items-center"><FaUserShield className="mr-3 text-2xl text-purple-400" />3. How We Use Your Information</h2>
-              <p className="mb-4">
-                We use the information we collect to:
-              </p>
-              <ul className="list-disc pl-6 space-y-2">
-                <li>Provide and maintain our AI-powered services</li>
-                <li>Improve and personalize your experience with our solutions</li>
-                <li>Communicate with you about our services and updates</li>
-                <li>Comply with legal obligations</li>
-                <li>Enhance our AI models and algorithms</li>
-              </ul>
-            </section>
-
-            <section>
-              <h2 className="text-xl font-semibold text-white mb-4 flex items-center"><FaShieldAlt className="mr-3 text-2xl text-red-400" />4. Data Security</h2>
-              <p className="mb-4">
-                We implement state-of-the-art security measures to protect your personal information. Our AI security solutions ensure that your data is protected using advanced encryption and security protocols. However, no method of transmission over the Internet is 100% secure, and we cannot guarantee absolute security.
-              </p>
-            </section>
-
-            <section>
-              <h2 className="text-xl font-semibold text-white mb-4 flex items-center"><FaUserShield className="mr-3 text-2xl text-yellow-400" />5. Your Rights</h2>
-              <p className="mb-4">
-                You have the right to:
-              </p>
-              <ul className="list-disc pl-6 space-y-2">
-                <li>Access your personal information</li>
-                <li>Correct inaccurate data</li>
-                <li>Request deletion of your data</li>
-                <li>Object to data processing</li>
-                <li>Data portability</li>
-                <li>Opt-out of AI model training using your data</li>
-              </ul>
-            </section>
-
-            <section>
-              <h2 className="text-xl font-semibold text-white mb-4 flex items-center"><FaEnvelope className="mr-3 text-2xl text-indigo-400" />6. Contact Us</h2>
-              <p className="mb-4">
-                If you have any questions about this Privacy Policy, please contact us at:
-              </p>
-              <p className="text-white">
-                Email: privacy@humotionpulse.com<br />
-                Phone: [Your Contact Number]<br />
-                Address: [Your Company Address]
-              </p>
-            </section>
-
-            <section>
-              <h2 className="text-xl font-semibold text-white mb-4 flex items-center"><FaHistory className="mr-3 text-2xl text-teal-400" />7. Updates to This Policy</h2>
-              <p className="mb-4">
-                We may update this Privacy Policy from time to time to reflect changes in our practices or for other operational, legal, or regulatory reasons. We will notify you of any material changes by posting the new Privacy Policy on this page and updating the "Last Updated" date.
-              </p>
-              <p className="text-sm text-gray-400">
-                Last Updated: {new Date().toLocaleDateString()}
-              </p>
-            </section>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-export default PrivacyPolicy; 
+export default PrivacyPolicy;

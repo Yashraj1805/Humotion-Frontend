@@ -1,124 +1,61 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Mail, Phone, MapPin, Send, Loader2 } from "lucide-react";
+import { Loader2 } from 'lucide-react';
 import axios from 'axios';
 
+import { ACCENT } from '@/lib/tokens';
+
 const emotions = [
-  { emoji: '😊', label: 'Happy' },
-  { emoji: '😔', label: 'Sad' },
-  { emoji: '😡', label: 'Angry' },
-  { emoji: '😌', label: 'Calm' },
-  { emoji: '🤔', label: 'Curious' },
+  { emoji: '😊', label: 'happy' },
+  { emoji: '😔', label: 'sad' },
+  { emoji: '😡', label: 'angry' },
+  { emoji: '😌', label: 'calm' },
+  { emoji: '🤔', label: 'curious' },
 ];
 
 const contactInfo = [
-  {
-    icon: Mail,
-    title: "Email Us",
-    content: "Founder@humotionai.com",
-    action: "mailto:Founder@humotionai.com"
-  },
-  {
-    icon: Phone,
-    title: "Call Us",
-    content: "+91 8700829517",
-    action: "tel:+918700829517"
-  },
-  {
-    icon: MapPin,
-    title: "Visit Us",
-    content: "B2 704, SCC Heights, Raj Nagar Extension, Ghaziabad, India",
-    action: "#"
-  }
+  { label: 'email',   value: 'Founder@humotionai.com',                                  href: 'mailto:Founder@humotionai.com' },
+  { label: 'phone',   value: '+91 8700 829 517',                                        href: 'tel:+918700829517' },
+  { label: 'office',  value: 'B2 704, SCC Heights, Raj Nagar Ext, Ghaziabad, India',    href: '#' },
 ];
 
 const ContactSection: React.FC = () => {
   const [selectedEmotion, setSelectedEmotion] = useState<string | null>(null);
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: ''
-  });
+  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [loading, setLoading] = useState(false);
-  const [status, setStatus] = useState<{
-    type: 'success' | 'error' | null;
-    message: string;
-  }>({ type: null, message: '' });
+  const [status, setStatus] = useState<{ type: 'success' | 'error' | null; message: string }>({ type: null, message: '' });
 
-  // Handle input changes
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Handle form submission
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
-    // Validate form
     if (!formData.name || !formData.email || !formData.message) {
-      setStatus({
-        type: 'error',
-        message: 'Please fill in all fields'
-      });
-      return;
+      return setStatus({ type: 'error', message: 'all fields required.' });
     }
-
     if (!selectedEmotion) {
-      setStatus({
-        type: 'error',
-        message: 'Please select how you\'re feeling today'
-      });
-      return;
+      return setStatus({ type: 'error', message: 'select your current state.' });
     }
-
     setLoading(true);
     setStatus({ type: null, message: '' });
-
     try {
-      // Replace with your actual backend endpoint
-      console.log('Submitting feedback:')
       const response = await axios.post('https://backend-server-5mwr.onrender.com/api/createFeedback', {
         ...formData,
-        // emotion: selectedEmotion,
-        mood: emotions.find(e => e.emoji === selectedEmotion)?.label,
-        timestamp: new Date().toISOString()
+        mood: emotions.find((em) => em.emoji === selectedEmotion)?.label,
+        timestamp: new Date().toISOString(),
       });
-
       if (response.status === 200 || response.status === 201) {
-        setStatus({
-          type: 'success',
-          message: 'Thank you for your message! We\'ll get back to you soon.'
-        });
-        
-        // Reset form
-        setFormData({
-          name: '',
-          email: '',
-          message: ''
-        });
+        setStatus({ type: 'success', message: 'transmission received. we will reply soon.' });
+        setFormData({ name: '', email: '', message: '' });
         setSelectedEmotion(null);
       }
-    } catch (error) {
-      console.error('Error submitting form:', error);
-      
-      if (axios.isAxiosError(error)) {
-        setStatus({
-          type: 'error',
-          message: error.response?.data?.message || 'Failed to send message. Please try again.'
-        });
+    } catch (err) {
+      if (axios.isAxiosError(err)) {
+        setStatus({ type: 'error', message: err.response?.data?.message || 'transmission failed. retry.' });
       } else {
-        setStatus({
-          type: 'error',
-          message: 'An unexpected error occurred. Please try again.'
-        });
+        setStatus({ type: 'error', message: 'unexpected error. retry.' });
       }
     } finally {
       setLoading(false);
@@ -126,144 +63,151 @@ const ContactSection: React.FC = () => {
   };
 
   return (
-    <section className="py-20 bg-gray-900 text-white">
-      <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          {/* Left side - Brand Message */}
-          <div className="space-y-6">
-            <h2 className="text-4xl font-bold bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent">
-              Connect with Emotion AI
+    <section id="contact" className="relative bg-[#0a0a0a] text-white py-24 border-b border-white/10 bg-grid-fine">
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-12 gap-6">
+          <div className="col-span-12 md:col-span-2 mono text-[11px] uppercase tracking-[0.22em] opacity-50">
+            <div>§ 05</div>
+            <div className="mt-1">contact</div>
+          </div>
+
+          {/* Left: pitch + info */}
+          <div className="col-span-12 md:col-span-5">
+            <h2 className="display text-5xl md:text-7xl tracking-tight">
+              start a<br />
+              <span style={{ color: ACCENT }}>conversation.</span>
             </h2>
-            <p className="text-gray-300 text-lg">
-              Experience the future of emotional intelligence. Our AI-powered platform
-              understands and responds to human emotions, creating meaningful connections
-              in the digital world.
+            <p className="mt-6 text-lg text-white/70 max-w-md">
+              Whether you're scoping a pilot or hiring an AI workforce — drop a line.
+              We respond fast. Engineering reads every message.
             </p>
-            <div className="flex items-center space-x-4">
-              <div className="w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center">
-                <svg
-                  className="w-6 h-6 text-blue-400"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
+
+            <div className="mt-12 border-t border-white/10">
+              {contactInfo.map((c) => (
+                <a
+                  key={c.label}
+                  href={c.href}
+                  className="group flex items-baseline justify-between gap-4 py-5 border-b border-white/10 hover:bg-white/[0.025] transition-colors px-1"
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M13 10V3L4 14h7v7l9-11h-7z"
-                  />
-                </svg>
-              </div>
-              <p className="text-gray-300">
-                Join us in shaping the future of emotional AI technology
-              </p>
+                  <div className="mono text-[10px] uppercase tracking-[0.22em] opacity-50 w-20 shrink-0">{c.label}</div>
+                  <div className="text-base md:text-lg text-white/85 group-hover:text-white text-right">
+                    {c.value}
+                  </div>
+                  <span style={{ color: ACCENT }} className="opacity-0 group-hover:opacity-100 transition-opacity">→</span>
+                </a>
+              ))}
             </div>
           </div>
 
-          {/* Right side - Contact Form */}
-          <div className="bg-gray-800 rounded-2xl p-8 shadow-xl">
-            <div className="mb-8">
-              <h3 className="text-xl font-semibold mb-4">How are you feeling today?</h3>
-              <div className="flex flex-wrap gap-4">
-                {emotions.map((emotion) => (
+          {/* Right: form */}
+          <div className="col-span-12 md:col-span-5">
+            <div className="border border-white/15 bg-black/40">
+              <div className="px-5 py-3 mono text-[10px] uppercase tracking-[0.22em] opacity-60 border-b border-white/10 flex items-center justify-between">
+                <span>~/humotionai/contact</span>
+                <span className="flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-white/30" />
+                  <span className="w-1.5 h-1.5 rounded-full bg-white/30" />
+                  <span className="w-1.5 h-1.5 rounded-full" style={{ background: ACCENT }} />
+                </span>
+              </div>
+
+              <div className="p-6 md:p-8">
+                <div className="mb-8">
+                  <div className="mono text-[10px] uppercase tracking-[0.22em] opacity-60 mb-3">
+                    // state.now
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {emotions.map((em) => {
+                      const active = selectedEmotion === em.emoji;
+                      return (
+                        <motion.button
+                          key={em.label}
+                          whileHover={{ y: -2 }}
+                          whileTap={{ scale: 0.95 }}
+                          type="button"
+                          onClick={() => setSelectedEmotion(em.emoji)}
+                          className={`flex items-center gap-2 px-3 py-2 border transition-colors ${
+                            active ? 'text-black' : 'text-white/70 border-white/20 hover:border-white/40'
+                          }`}
+                          style={active ? { background: ACCENT, borderColor: ACCENT } : {}}
+                        >
+                          <span className="text-base">{em.emoji}</span>
+                          <span className="mono text-[10px] uppercase tracking-[0.22em]">{em.label}</span>
+                        </motion.button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                <form onSubmit={handleSubmit} className="space-y-5">
+                  {[
+                    { name: 'name',    label: 'name',    type: 'text',  placeholder: 'your name' },
+                    { name: 'email',   label: 'email',   type: 'email', placeholder: 'you@domain.com' },
+                  ].map((f) => (
+                    <div key={f.name}>
+                      <label className="mono text-[10px] uppercase tracking-[0.22em] opacity-60 mb-2 block">
+                        // {f.label}
+                      </label>
+                      <input
+                        name={f.name}
+                        type={f.type}
+                        value={(formData as any)[f.name]}
+                        onChange={handleInputChange}
+                        disabled={loading}
+                        placeholder={f.placeholder}
+                        className="w-full bg-transparent border border-white/15 focus:border-[var(--mos-accent,#d4ff00)] outline-none px-4 py-3 text-white placeholder-white/30 transition-colors"
+                      />
+                    </div>
+                  ))}
+
+                  <div>
+                    <label className="mono text-[10px] uppercase tracking-[0.22em] opacity-60 mb-2 block">
+                      // message
+                    </label>
+                    <textarea
+                      name="message"
+                      value={formData.message}
+                      onChange={handleInputChange}
+                      disabled={loading}
+                      placeholder="what are you building?"
+                      rows={4}
+                      className="w-full bg-transparent border border-white/15 focus:border-[var(--mos-accent,#d4ff00)] outline-none px-4 py-3 text-white placeholder-white/30 resize-none transition-colors"
+                    />
+                  </div>
+
+                  {status.type && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className={`px-4 py-3 mono text-[11px] uppercase tracking-[0.22em] border ${
+                        status.type === 'success'
+                          ? 'border-[color:var(--mos-accent,#d4ff00)] text-[color:var(--mos-accent,#d4ff00)]'
+                          : 'border-red-400/40 text-red-300'
+                      }`}
+                    >
+                      {status.type === 'success' ? '✓' : '!'} {status.message}
+                    </motion.div>
+                  )}
+
                   <motion.button
-                    key={emotion.label}
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    onClick={() => setSelectedEmotion(emotion.emoji)}
-                    className={`p-3 rounded-xl flex flex-col items-center space-y-1 transition-all ${
-                      selectedEmotion === emotion.emoji
-                        ? 'bg-blue-500/20 border-2 border-blue-500'
-                        : 'bg-gray-700/50 hover:bg-gray-700'
-                    }`}
-                    type="button"
+                    type="submit"
+                    whileTap={{ scale: 0.98 }}
+                    disabled={loading}
+                    className="w-full py-4 px-6 mono text-[11px] uppercase tracking-[0.22em] text-black flex items-center justify-center gap-2 disabled:opacity-60"
+                    style={{ background: ACCENT }}
                   >
-                    <span className="text-2xl">{emotion.emoji}</span>
-                    <span className="text-sm text-gray-300">{emotion.label}</span>
+                    {loading ? (
+                      <>
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                        sending<span className="caret">_</span>
+                      </>
+                    ) : (
+                      <>▶ transmit message</>
+                    )}
                   </motion.button>
-                ))}
+                </form>
               </div>
             </div>
-
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
-                  Name
-                </label>
-                <input
-                  type="text"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleInputChange}
-                  className="w-full px-4 py-3 bg-gray-700/50 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-white"
-                  placeholder="Your name"
-                  disabled={loading}
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
-                  Email
-                </label>
-                <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  className="w-full px-4 py-3 bg-gray-700/50 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-white"
-                  placeholder="your@email.com"
-                  disabled={loading}
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
-                  Message
-                </label>
-                <textarea
-                  name="message"
-                  value={formData.message}
-                  onChange={handleInputChange}
-                  className="w-full px-4 py-3 bg-gray-700/50 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all h-32 text-white"
-                  placeholder="Your message..."
-                  disabled={loading}
-                />
-              </div>
-
-              {/* Status Messages */}
-              {status.type && (
-                <motion.div
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className={`p-4 rounded-lg text-sm ${
-                    status.type === 'success'
-                      ? 'bg-green-500/20 text-green-300 border border-green-500/30'
-                      : 'bg-red-500/20 text-red-300 border border-red-500/30'
-                  }`}
-                >
-                  {status.message}
-                </motion.div>
-              )}
-
-              <motion.button
-                type="submit"
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                disabled={loading}
-                className="w-full py-3 px-6 bg-gradient-to-r from-red-500 to-blue-500 text-white rounded-lg font-medium hover:from-red-600 hover:to-blue-600 transition-all shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-              >
-                {loading ? (
-                  <>
-                    <Loader2 className="w-5 h-5 animate-spin" />
-                    Sending...
-                  </>
-                ) : (
-                  <>
-                    <Send className="w-5 h-5" />
-                    Send Message
-                  </>
-                )}
-              </motion.button>
-            </form>
           </div>
         </div>
       </div>

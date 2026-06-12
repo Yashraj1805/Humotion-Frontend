@@ -1,9 +1,11 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { AnimatePresence, motion } from 'framer-motion';
 import { AuthProvider } from './contexts/AuthContext';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import ScrollToTop from './components/ScrollToTop';
+import ScrollProgress from './components/common/ScrollProgress';
 import Index from './pages/Index';
 import Services from './pages/Services';
 import AIConsulting from './pages/services/AIConsulting';
@@ -29,16 +31,20 @@ import Register from './pages/Register';
 import Profile from './pages/Profile';
 import Settings from './pages/Settings';
 import HumoProduct from './pages/HumoProduct';
+import MosProduct from './pages/MosProduct';
 
-function App() {
+const AnimatedRoutes: React.FC = () => {
+  const location = useLocation();
   return (
-    <AuthProvider>
-      <Router>
-        <div className="flex flex-col min-h-screen">
-          <Header />
-          <main className="flex-grow">
-        <ScrollToTop />
-        <Routes>
+    <AnimatePresence mode="wait">
+      <motion.div
+        key={location.pathname}
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -4 }}
+        transition={{ duration: 0.25, ease: [0.2, 0.7, 0.2, 1] }}
+      >
+        <Routes location={location}>
           <Route path="/" element={<Index />} />
           <Route path="/services" element={<Services />} />
           <Route path="/services/ai-consulting" element={<AIConsulting />} />
@@ -52,19 +58,36 @@ function App() {
           <Route path="/solutions/it-infrastructure" element={<ITInfrastructure />} />
           <Route path="/solutions/cloud" element={<CloudServices />} />
           <Route path="/contact" element={<Contact />} />
-              <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-              <Route path="/terms" element={<TermsOfService />} />
-              <Route path="/cookies" element={<CookiePolicy />} />
-              <Route path="/blog/NeuralEmotions" element={<NeuralEmotions />} />
-              <Route path="/blog/AIMentalHealth" element={<AIMentalHealth />} />
-              <Route path="/blog/EmotionalAIFuture" element={<EmotionalAIFuture />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
-              <Route path="/profile" element={<Profile />} />
-              <Route path="/settings" element={<Settings />} />
-              <Route path="/humo" element={<HumoProduct />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/terms" element={<TermsOfService />} />
+          <Route path="/cookies" element={<CookiePolicy />} />
+          <Route path="/blog/NeuralEmotions" element={<NeuralEmotions />} />
+          <Route path="/blog/AIMentalHealth" element={<AIMentalHealth />} />
+          <Route path="/blog/EmotionalAIFuture" element={<EmotionalAIFuture />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/settings" element={<Settings />} />
+          <Route path="/humo" element={<HumoProduct />} />
+          <Route path="/mos" element={<MosProduct />} />
+          <Route path="/products/mos" element={<MosProduct />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
+      </motion.div>
+    </AnimatePresence>
+  );
+};
+
+function App() {
+  return (
+    <AuthProvider>
+      <Router>
+        <ScrollProgress />
+        <div className="flex flex-col min-h-screen">
+          <Header />
+          <main className="flex-grow">
+            <ScrollToTop />
+            <AnimatedRoutes />
           </main>
           <Footer />
         </div>
